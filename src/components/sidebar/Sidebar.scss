@@ -1,0 +1,38 @@
+.containerSidebar {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px 0;
+  flex-wrap: wrap;
+
+  .containerIcon {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: pointer;
+    border-radius: 5px;
+
+    &:nth-child(1) {
+      border-radius: 12px;
+    }
+    &:nth-child(3) {
+      border-radius: 50%;
+    }
+
+    &:hover {
+      transition: 0.2s;
+      background-color: #986c43;
+    }
+
+    span {
+      width: 40px;
+      height: 40px;
+
+      svg {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+}

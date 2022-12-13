@@ -2,6 +2,7 @@ import { Breadcrumb, Layout } from 'antd';
 import React from 'react';
 import MainFooter from '../components/footer/MainFooter';
 import MainHeader from '../components/header/MainHeader';
+import Sidebar from '../components/sidebar/Sidebar';
 import './MainLayout.scss';
 
 const MainLayout = ({ children }) => {
@@ -40,16 +41,15 @@ const MainLayout = ({ children }) => {
             </div>
           </Content>
           <Sider
+            width={60}
             style={{
-              margin: '50px 50px',
-              // overflow: 'auto',
+              margin: '50px 0',
+              overflow: 'auto',
               backgroundColor: '#364037',
               color: '#f4dec9',
               position: 'fixed',
-              height: '300px',
               right: 0,
             }}>
-            Social networks
             <Sidebar />
           </Sider>
         </Layout>
