@@ -19,7 +19,6 @@ const styleBreadcrumb = {
 };
 
 const styleContent = {
-  // backgroundColor: '#364037',
   color: '#f4dec9',
 };
 
@@ -29,6 +28,7 @@ const styleSider = {
   color: '#f4dec9',
   position: 'fixed',
   right: 0,
+  marginTop: '100px',
 };
 
 const styleFooter = {
