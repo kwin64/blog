@@ -1,0 +1,80 @@
+.containerPost {
+  border-radius: 10px;
+  margin: 50px 0 100px;
+  padding: 50px;
+  background-color: #364037;
+
+  .user {
+    font-size: 15px;
+    letter-spacing: 1px;
+    margin-bottom: 50px;
+  }
+
+  .title {
+    font-size: 50px;
+    margin-bottom: 50px;
+  }
+
+  .image {
+    float: right;
+    height: 800px;
+    width: 100%;
+    margin: 10px;
+  }
+
+  .aboutPost {
+    font-size: 25px;
+    line-height: 50px;
+  }
+
+  .like {
+    margin: 50px 0;
+    display: flex;
+    gap: 0 20px;
+    align-items: center;
+
+    svg {
+      font-size: 25px;
+    }
+    p {
+      font-size: 25px;
+    }
+  }
+
+  .comments {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    .commentContainer {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+
+      .avatar {
+        border: 1px solid;
+        width: 50px;
+        height: 50px;
+        margin-right: 20px;
+      }
+
+      .aboutComment {
+        padding: 10px;
+      }
+    }
+  }
+
+  .commentForm {
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 10px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px;
+      width: 200px;
+    }
+  }
+}
