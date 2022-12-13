@@ -23,7 +23,8 @@ const Main = () => {
     comments: 1,
     likes: 2,
   };
-  console.log(Array(5).fill(testDate));
+
+  // console.log(Array(5).fill(testDate));
 
   return (
     <div className="container">

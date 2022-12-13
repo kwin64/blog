@@ -7,15 +7,13 @@ import Main from './pages/main/Main';
 import NewPost from './pages/newPost/NewPost';
 import NotFound from './pages/notFound/NotFound';
 import Post from './pages/post/Post';
-import Posts from './pages/posts/Posts';
 import Registration from './pages/registration/Registration';
 
 function App() {
   return (
     <MainLayout>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="posts" element={<Posts />} />
+        <Route path="/posts" element={<Main />} />
         <Route path=":id" element={<Post />} />
         <Route path=":id/edit" element={<EditPost />} />
         <Route path=":new" element={<NewPost />} />
