@@ -1,12 +1,11 @@
-import React from 'react';
-import './Sidebar.scss';
 import {
-  InstagramOutlined,
   FacebookOutlined,
-  YoutubeOutlined,
   GithubOutlined,
+  InstagramOutlined,
   LinkedinOutlined,
 } from '@ant-design/icons';
+import React from 'react';
+import './Sidebar.scss';
 
 const Sidebar = () => {
   return (

@@ -6,6 +6,17 @@
     .layoutContent {
       width: 90%;
       background-color: #ffffff;
+      margin-top: 15vh;
+
+      .site-layout-content {
+        overflow: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+
+        &::-webkit-scrollbar {
+          display: none;
+        }
+      }
     }
   }
 }

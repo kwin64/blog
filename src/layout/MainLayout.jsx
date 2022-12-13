@@ -5,24 +5,52 @@ import MainHeader from '../components/header/MainHeader';
 import Sidebar from '../components/sidebar/Sidebar';
 import './MainLayout.scss';
 
+const styleHeader = {
+  backgroundColor: '#364037',
+  color: '#f4dec9',
+  position: 'fixed',
+  top: 0,
+  width: '100%',
+  height: '15vh',
+};
+
+const styleBreadcrumb = {
+  padding: '0 50px',
+};
+
+const styleContent = {
+  // backgroundColor: '#364037',
+  color: '#f4dec9',
+};
+
+const styleSider = {
+  overflow: 'auto',
+  backgroundColor: '#364037',
+  color: '#f4dec9',
+  position: 'fixed',
+  right: 0,
+};
+
+const styleFooter = {
+  backgroundColor: '#364037',
+  color: '#f4dec9',
+  textAlign: 'center',
+  position: 'fixed',
+  bottom: 0,
+  width: '100%',
+};
+
 const MainLayout = ({ children }) => {
   const { Header, Content, Footer, Sider } = Layout;
 
   return (
     <div className="mainContainer">
       <Layout className="layout">
-        <Header
-          style={{
-            backgroundColor: '#364037',
-            color: '#f4dec9',
-          }}>
+        <Header style={styleHeader}>
           <MainHeader />
         </Header>
         <Layout className="layoutContent">
-          <Content
-            style={{
-              padding: '0 50px',
-            }}>
+          <Content style={styleBreadcrumb}>
             <Breadcrumb
               style={{
                 margin: '16px 0',
@@ -31,34 +59,15 @@ const MainLayout = ({ children }) => {
               <Breadcrumb.Item>List</Breadcrumb.Item>
               <Breadcrumb.Item>App</Breadcrumb.Item>
             </Breadcrumb>
-            <div
-              className="site-layout-content"
-              style={{
-                backgroundColor: '#364037',
-                color: '#f4dec9',
-              }}>
-              {children}
+            <div className="site-layout-content" style={styleContent}>
+              <div>{children}</div>
             </div>
           </Content>
-          <Sider
-            width={60}
-            style={{
-              margin: '50px 0',
-              overflow: 'auto',
-              backgroundColor: '#364037',
-              color: '#f4dec9',
-              position: 'fixed',
-              right: 0,
-            }}>
+          <Sider width={60} style={styleSider}>
             <Sidebar />
           </Sider>
         </Layout>
-        <Footer
-          style={{
-            backgroundColor: '#364037',
-            color: '#f4dec9',
-            textAlign: 'center',
-          }}>
+        <Footer style={styleFooter}>
           <MainFooter />
         </Footer>
       </Layout>
