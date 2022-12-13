@@ -1,18 +1,18 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.scss';
-import Layout from './layout/Layout';
-import Post from './pages/post/Post';
-import Main from './pages/main/Main';
-import Posts from './pages/posts/Posts';
+import MainLayout from './layout/MainLayout';
+import EditPost from './pages/editPost/EditPost';
 import Login from './pages/login/Login';
-import Registration from './pages/registration/Registration';
+import Main from './pages/main/Main';
 import NewPost from './pages/newPost/NewPost';
 import NotFound from './pages/notFound/NotFound';
-import EditPost from './pages/editPost/EditPost';
+import Post from './pages/post/Post';
+import Posts from './pages/posts/Posts';
+import Registration from './pages/registration/Registration';
 
 function App() {
   return (
-    <Layout>
+    <MainLayout>
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="posts" element={<Posts />} />
@@ -23,7 +23,7 @@ function App() {
         <Route path="registration" element={<Registration />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </Layout>
+    </MainLayout>
   );
 }
 
