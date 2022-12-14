@@ -9,8 +9,8 @@ class UserController {
       if (!errors.isEmpty()) {
         return next(ApiError.BadRequest('Bad login or password', errors.array()));
       }
-      const { email, password, nickName } = req.body;
-      const userData = await userService.registration(email, password, nickName);
+      const { email, password, nickname } = req.body;
+      const userData = await userService.registration(email, password, nickname);
       res.cookie('refreshToken', userData.refreshToken, {
         maxAge: 30 * 24 * 60 * 60 * 1000,
         httpOnly: true,

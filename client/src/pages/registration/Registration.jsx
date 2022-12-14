@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, Form, Input } from 'antd';
 import './Registration.scss';
 import { PlusOutlined } from '@ant-design/icons';
 import { Upload } from 'antd';
+import { Context } from '../..';
+import { observer } from 'mobx-react-lite';
 
-const Registration = () => {
+const Registration = observer(() => {
+  const { store } = useContext(Context);
+
   const onFinish = (values) => {
     console.log('Success:', values);
+    store.registration(values);
   };
+
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -41,18 +47,20 @@ const Registration = () => {
             {
               required: true,
               message: 'Please input your password!',
+              min: 5,
             },
           ]}>
           <Input.Password />
         </Form.Item>
 
         <Form.Item
-          label="Nickname"
-          name="Nickname"
+          label="nickname"
+          name="nickname"
           rules={[
             {
               required: true,
-              message: 'Please input your Nickname!',
+              message: 'Please input your nickname!',
+              min: 1,
             },
           ]}>
           <Input />
@@ -74,7 +82,9 @@ const Registration = () => {
           </Button>
         </Form.Item>
       </Form>
+
+      <div className="error">{store.error}</div>
     </div>
   );
-};
+});
 export default Registration;

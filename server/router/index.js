@@ -8,7 +8,7 @@ router.post(
   '/registration',
   body('email').isEmail(),
   body('password').isLength({ min: 3, max: 32 }),
-  body('nickName').isLength({ min: 3 }),
+  body('nickname').isLength({ min: 1 }),
   userController.registration,
 );
 router.post('/login', userController.login);

@@ -1,10 +1,17 @@
 import { Button, Form, Input } from 'antd';
-import React from 'react';
+import React, { useContext } from 'react';
 import './Login.scss';
+import { Context } from '../..';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = observer(() => {
+  const { store } = useContext(Context);
+  let navigate = useNavigate();
+
   const onFinish = (values) => {
-    console.log('Success:', values);
+    store.login(values);
+    navigate('/posts');
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -21,19 +28,19 @@ const Login = () => {
         onFinishFailed={onFinishFailed}
         autoComplete="off">
         <Form.Item
-          label="Username"
-          name="username"
+          label="email"
+          name="email"
           rules={[
             {
               required: true,
-              message: 'Please input your username!',
+              message: 'Please input your email!',
             },
           ]}>
           <Input />
         </Form.Item>
 
         <Form.Item
-          label="Password"
+          label="password"
           name="password"
           rules={[
             {
@@ -54,7 +61,9 @@ const Login = () => {
           </Button>
         </Form.Item>
       </Form>
+
+      <div className="error">{store.error}</div>
     </div>
   );
-};
+});
 export default Login;

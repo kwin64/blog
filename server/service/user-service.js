@@ -7,7 +7,7 @@ const UserDto = require('../dtos/user-dto');
 const ApiError = require('../exceptions/api-error');
 
 class UserService {
-  async registration(email, password, nickName) {
+  async registration(email, password, nickname) {
     const candidate = await UserModel.findOne({ email });
 
     if (candidate) {
@@ -20,7 +20,7 @@ class UserService {
     const user = await UserModel.create({
       email,
       password: hashPassword,
-      nickName,
+      nickname,
       activationLink,
     });
     await mailService.sendActivationMail(

@@ -1,8 +1,12 @@
 import React from 'react';
 import './Main.scss';
 import { LikeOutlined } from '@ant-design/icons';
+import { observer } from 'mobx-react-lite';
+import { useNavigate } from 'react-router-dom';
 
-const Main = () => {
+const Main = observer(() => {
+  let navigate = useNavigate();
+
   const dateObj = new Date();
   const month = dateObj.getMonth() + 1;
   const day = dateObj.getUTCDate();
@@ -24,11 +28,15 @@ const Main = () => {
     likes: 2,
   };
 
+  const handlePost = (id) => {
+    return navigate(`/posts/${id}`);
+  };
+
   // console.log(Array(5).fill(testDate));
 
   return (
     <div className="container">
-      <div className="post">
+      <div className="post" onClick={() => handlePost(1)}>
         <div
           className="image"
           style={{
@@ -85,5 +93,5 @@ const Main = () => {
       </div>
     </div>
   );
-};
+});
 export default Main;

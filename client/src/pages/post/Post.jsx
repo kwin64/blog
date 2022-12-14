@@ -1,6 +1,6 @@
+import { LikeOutlined } from '@ant-design/icons';
 import React from 'react';
 import './Post.scss';
-import { LikeOutlined } from '@ant-design/icons';
 
 const Post = () => {
   const dateObj = new Date();
