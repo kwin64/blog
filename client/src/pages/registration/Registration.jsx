@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Form, Input } from 'antd';
 import './Registration.scss';
+import { PlusOutlined } from '@ant-design/icons';
+import { Upload } from 'antd';
 
 const Registration = () => {
   const onFinish = (values) => {
@@ -43,6 +45,24 @@ const Registration = () => {
           ]}>
           <Input.Password />
         </Form.Item>
+
+        <Form.Item
+          label="Nickname"
+          name="Nickname"
+          rules={[
+            {
+              required: true,
+              message: 'Please input your Nickname!',
+            },
+          ]}>
+          <Input />
+        </Form.Item>
+
+        {/* <Form.Item label="Upload" valuePropName="fileList">
+          <Upload {...props}>
+            <Button icon={<UploadOutlined />}>Click to Upload</Button>
+          </Upload>
+        </Form.Item> */}
 
         <Form.Item
           wrapperCol={{

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.scss';
 import MainLayout from './layout/MainLayout';
 import EditPost from './pages/editPost/EditPost';
@@ -14,6 +14,7 @@ function App() {
     <MainLayout>
       <Routes>
         <Route path="/posts" element={<Main />} />
+        <Route path="/" element={<Navigate to="posts" replace />} />
         <Route path=":id" element={<Post />} />
         <Route path=":id/edit" element={<EditPost />} />
         <Route path=":new" element={<NewPost />} />
