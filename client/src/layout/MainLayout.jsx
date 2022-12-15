@@ -1,5 +1,7 @@
 import { Breadcrumb, Layout } from 'antd';
-import React from 'react';
+import { observer } from 'mobx-react-lite';
+import React, { useContext } from 'react';
+import { Context } from '..';
 import MainFooter from '../components/footer/MainFooter';
 import MainHeader from '../components/header/MainHeader';
 import Sidebar from '../components/sidebar/Sidebar';
@@ -40,7 +42,8 @@ const styleFooter = {
   width: '100%',
 };
 
-const MainLayout = ({ children }) => {
+const MainLayout = observer(({ children }) => {
+  const { store } = useContext(Context);
   const { Header, Content, Footer, Sider } = Layout;
 
   return (
@@ -55,9 +58,11 @@ const MainLayout = ({ children }) => {
               <div>{children}</div>
             </div>
           </Content>
-          <Sider width={60} style={styleSider}>
-            <Sidebar />
-          </Sider>
+          {store.isAuth && (
+            <Sider width={60} style={styleSider}>
+              <Sidebar />
+            </Sider>
+          )}
         </Layout>
         <Footer style={styleFooter}>
           <MainFooter />
@@ -65,5 +70,5 @@ const MainLayout = ({ children }) => {
       </Layout>
     </div>
   );
-};
+});
 export default MainLayout;

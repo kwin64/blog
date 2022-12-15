@@ -1,27 +1,20 @@
-const ApiError = require('../exceptions/api-error');
-const tokenService = require('../service/token-service');
+import jwt from 'jsonwebtoken';
 
-module.exports = function (req, res, next) {
-  try {
-    const authorizationHeader = req.headers.authorization;
-
-    if (!authorizationHeader) {
-      return next(ApiError.UnauthorizedError());
+export default (req, res, next) => {
+  const token = (req.headers.authorization || ' ').split(' ')[1];
+  if (token) {
+    try {
+      const decoded = jwt.verify(token, 'jwt-secret-key');
+      req.userId = decoded._id;
+      next();
+    } catch (error) {
+      return res.status(403).json({
+        message: "Don't have access",
+      });
     }
-    const accessToken = authorizationHeader.split(' ')[1];
-
-    if (!accessToken) {
-      return next(ApiError.UnauthorizedError());
-    }
-
-    const userData = tokenService.validateAccessToken(accessToken);
-    if (!userData) {
-      return next(ApiError.UnauthorizedError());
-    }
-
-    req.user = userData;
-    next();
-  } catch (error) {
-    return next(ApiError.UnauthorizedError());
+  } else {
+    return res.status(403).json({
+      message: "Don't have access",
+    });
   }
 };

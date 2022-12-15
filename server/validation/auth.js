@@ -1,9 +1,13 @@
-// const { body } = require('express-validator');
+import { body } from 'express-validator';
 
-//   const registrationValidator = [
-//   body('email').isEmail(),
-//   body('password').isLength({ min: 5 }),
-//   body('nickName').isLength({ min: 3 }),
-//   // body('avatar').optional().isURL()
-// ];
-// module.exports registrationValidator
+export const registrationValidation = [
+  body('email', 'Bad email').isEmail(),
+  body('password', 'Bad password').isLength({ min: 5 }),
+  body('nickname', 'Enter you nickname').isLength({ min: 3 }),
+  body('avatarUrl', 'Bad link to avatar').optional().isURL(),
+];
+
+export const loginValidation = [
+  body('email', 'Bad email').isEmail(),
+  body('password', 'Bad password').isLength({ min: 5 }),
+];

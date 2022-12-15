@@ -10,7 +10,6 @@ export const MainHeader = observer(() => {
 
   const handleLogout = () => {
     store.logout();
-    return navigate('/login');
   };
   const handleSignup = () => {
     return navigate('/registration');

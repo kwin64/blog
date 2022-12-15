@@ -1,34 +1,39 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const mongoose = require('mongoose');
-const router = require('./router/index');
-const errorMiddleware = require('./middlewares/error-middleware');
+import express from 'express';
+import mongoose from 'mongoose';
+import authMiddleware from './middlewares/auth-middleware.js';
+import { loginValidation, registrationValidation } from './validation/auth.js';
+import { postCreateValidation } from './validation/post.js';
+import { register, login, getMe } from './controllers/user-controller.js';
+import { create, getAll, getOne, remove, update } from './controllers/post-controller.js';
 
-const PORT = process.env.PORT || 5080;
+const PORT = 5080;
+const DB_URL =
+  'mongodb+srv://admin:q1w2e3r4@cluster0.0vp2jpw.mongodb.net/blog?retryWrites=true&w=majority';
+export const JWT_ACCESS_SECRET = 'jwt-secret-key';
+const JWT_REFRESH_SECRET = 'jwt-refresh-secret-key';
+const SMTP_HOST = 'smtp.gmail.com';
+const SMTP_PORT = 993;
+const SMTP_USER = 'xoxylya6490@gmail.com';
+const SMTP_PASSWORD = 'errgzpragsfehnft';
+const API_URL = 'http://localhost:5080';
+const CLIENT_URL = 'http://localhost:3000';
+
+mongoose
+  .connect(DB_URL)
+  .then(() => console.log('db connected'))
+  .catch((err) => console.log('db error', err));
+
 const app = express();
 app.use(express.json());
-app.use(cookieParser());
-app.use(
-  cors({
-    credentials: true,
-    origin: process.env.CLIENT_URL,
-  }),
-);
-app.use('/api', router);
-app.use(errorMiddleware);
 
-const start = async () => {
-  try {
-    await mongoose
-      .connect(process.env.DB_URL)
-      .then(() => console.log('db connected'))
-      .catch((err) => console.log('db error', err));
-    app.listen(PORT, () => console.log(`server started on ${PORT}`));
-  } catch (error) {
-    console.log(error);
-  }
-};
+app.post('/auth/register', registrationValidation, register);
+app.post('/auth/login', loginValidation, login);
+app.get('/auth/me', authMiddleware, getMe);
 
-start();
+app.get('/posts', getAll);
+app.get('/posts/:id', getOne);
+app.post('/posts', authMiddleware, postCreateValidation, create);
+app.delete('/posts/:id', authMiddleware, remove);
+app.patch('/posts/:id', update);
+
+app.listen(PORT, () => console.log(`server started on ${PORT}`));

@@ -11,7 +11,8 @@ const Login = observer(() => {
 
   const onFinish = (values) => {
     store.login(values);
-    navigate('/posts');
+    // return navigate('/posts');
+    // }
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);

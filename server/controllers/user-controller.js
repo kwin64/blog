@@ -1,83 +1,100 @@
-const { validationResult } = require('express-validator');
-const ApiError = require('../exceptions/api-error');
-const userService = require('../service/user-service');
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { validationResult } from 'express-validator';
+import userModel from '../models/user-model.js';
+import { JWT_ACCESS_SECRET } from '../index.js';
 
-class UserController {
-  async registration(req, res, next) {
-    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return next(ApiError.BadRequest('Bad login or password', errors.array()));
-      }
-      const { email, password, nickname } = req.body;
-      const userData = await userService.registration(email, password, nickname);
-      res.cookie('refreshToken', userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+export const register = async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json(errors.array());
+    }
+
+    const hashPassword = await bcrypt.hash(req.body.password, 3);
+
+    const doc = new userModel({
+      email: req.body.email,
+      password: hashPassword,
+      avatarUrl: req.body.avatarUrl,
+      nickname: req.body.nickname,
+    });
+
+    const user = await doc.save();
+
+    const token = jwt.sign(
+      {
+        _id: user._id,
+      },
+      JWT_ACCESS_SECRET,
+      { expiresIn: '30d' },
+    );
+
+    const { password, ...userData } = user._doc;
+    res.json({
+      ...userData,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Failed to register', error: error });
+  }
+};
+
+export const login = async (req, res) => {
+  try {
+    const user = await userModel.findOne({ email: req.body.email });
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found',
       });
-      return res.json(userData);
-    } catch (error) {
-      next(error);
     }
-  }
 
-  async login(req, res, next) {
-    try {
-      const { email, password } = req.body;
-      const userData = await userService.login(email, password);
-      res.cookie('refreshToken', userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+    const isValidPassword = await bcrypt.compare(req.body.password, user._doc.password);
+
+    if (!isValidPassword) {
+      return res.status(400).json({
+        message: 'Bad login or password',
       });
-      return res.json(userData);
-    } catch (error) {
-      next(error);
     }
-  }
 
-  async logOut(req, res, next) {
-    try {
-      const { refreshToken } = req.cookies;
-      const token = await userService.logout(refreshToken);
-      res.clearCookie('refreshToken');
-      return res.json(token);
-    } catch (error) {
-      next(error);
-    }
-  }
+    const token = jwt.sign(
+      {
+        _id: user._id,
+      },
+      JWT_ACCESS_SECRET,
+      { expiresIn: '30d' },
+    );
 
-  async activate(req, res, next) {
-    try {
-      const activationLink = req.params.link;
-      await userService.activate(activationLink);
-      return res.redirect(process.env.CLIENT_URL);
-    } catch (error) {
-      next(error);
-    }
+    const { password, ...userData } = user._doc;
+    res.json({
+      ...userData,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: 'Failed to authorise', error: error });
   }
+};
 
-  async refresh(req, res, next) {
-    try {
-      const { refreshToken } = req.cookies;
-      const userData = await userService.refresh(refreshToken);
-      res.cookie('refreshToken', userData.refreshToken, {
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+export const getMe = async (req, res) => {
+  try {
+    const user = await userModel.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found',
       });
-      return res.json(userData);
-    } catch (error) {
-      next(error);
     }
-  }
 
-  async getUsers(req, res, next) {
-    try {
-      const users = await userService.getAllUsers();
-      return res.json(users);
-    } catch (error) {
-      next(error);
-    }
+    const { password, ...userData } = user._doc;
+    res.json({
+      ...userData,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "You don't have access",
+    });
   }
-}
-
-module.exports = new UserController();
+};
