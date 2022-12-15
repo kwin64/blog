@@ -1,16 +1,9 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import { validationResult } from 'express-validator';
 import userModel from '../models/user-model.js';
-import { JWT_ACCESS_SECRET } from '../index.js';
 
 export const register = async (req, res) => {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json(errors.array());
-    }
-
     const hashPassword = await bcrypt.hash(req.body.password, 3);
 
     const doc = new userModel({
@@ -26,7 +19,7 @@ export const register = async (req, res) => {
       {
         _id: user._id,
       },
-      JWT_ACCESS_SECRET,
+      process.env.JWT_ACCESS_SECRET,
       { expiresIn: '30d' },
     );
 
@@ -63,7 +56,7 @@ export const login = async (req, res) => {
       {
         _id: user._id,
       },
-      JWT_ACCESS_SECRET,
+      process.env.JWT_ACCESS_SECRET,
       { expiresIn: '30d' },
     );
 
