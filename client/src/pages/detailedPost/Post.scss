@@ -3,6 +3,8 @@
   margin: 50px 0 100px;
   padding: 50px;
   background-color: #364037;
+  color: #f4dec9;
+  width: 1200px;
 
   .user {
     font-size: 15px;
@@ -27,7 +29,7 @@
     line-height: 50px;
   }
 
-  .like {
+  .viewsCount {
     margin: 50px 0;
     display: flex;
     gap: 0 20px;

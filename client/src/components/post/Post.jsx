@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Post = ({ image, post }) => {
+  const loading = false;
   return (
     <div className="post">
       <div

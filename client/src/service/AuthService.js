@@ -1,8 +1,8 @@
 import $api from '../utils/axios';
 
 export default class AuthService {
-  static async login(email, password) {
-    return $api.post('/auth/login', { email, password });
+  static async login(params) {
+    return $api.post('/auth/login', params);
   }
   static async registration(email, password, nickname) {
     return $api.post('/auth/register', { email, password, nickname });

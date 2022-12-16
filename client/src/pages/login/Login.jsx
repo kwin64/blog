@@ -1,15 +1,25 @@
 import { Button, Form, Input } from 'antd';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { fetchAuth, selectIsAuth } from '../../redux/slices/auth';
 import './Login.scss';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
   const onFinish = (values) => {
     console.log(values);
+    dispatch(fetchAuth(values));
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  console.log('isAuth', isAuth);
 
+  if (isAuth) {
+    return <Navigate to="/" />;
+  }
   return (
     <div className="containerLogin">
       <Form

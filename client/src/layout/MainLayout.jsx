@@ -1,8 +1,10 @@
 import { Layout } from 'antd';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import MainFooter from '../components/footer/MainFooter';
 import MainHeader from '../components/header/MainHeader';
 import Sidebar from '../components/sidebar/Sidebar';
+import { selectIsAuth } from '../redux/slices/auth';
 import './MainLayout.scss';
 
 const styleHeader = {
@@ -43,6 +45,7 @@ const styleFooter = {
 };
 
 const MainLayout = ({ children }) => {
+  const isAuth = useSelector(selectIsAuth);
   const { Header, Content, Footer, Sider } = Layout;
 
   return (
@@ -57,11 +60,11 @@ const MainLayout = ({ children }) => {
               <div>{children}</div>
             </div>
           </Content>
-          {/* {store.isAuth && ( */}
-          <Sider width={60} style={styleSider}>
-            <Sidebar />
-          </Sider>
-          {/* )} */}
+          {isAuth && (
+            <Sider width={60} style={styleSider}>
+              <Sidebar />
+            </Sider>
+          )}
         </Layout>
         <Footer style={styleFooter}>
           <MainFooter />

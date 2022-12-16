@@ -1,6 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
 import { Skeleton } from 'antd';
+import React from 'react';
 
 const SkeletonPost = () => {
   return (
