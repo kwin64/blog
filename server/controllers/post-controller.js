@@ -20,7 +20,22 @@ export const create = async (req, res) => {
   }
 };
 
-export const getAll = async (req, res) => {
+export const getTags = async (req, res) => {
+  try {
+    const posts = await postModel.find().limit(5).exec();
+    const tags = posts
+      .map((obj) => obj.tags)
+      .flatMap()
+      .slice(0, 5);
+    res.json(tags);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: 'failed to get posts',
+    });
+  }
+};
+export const getAllPosts = async (req, res) => {
   try {
     const posts = await postModel.find().populate('user').exec();
     res.json(posts);

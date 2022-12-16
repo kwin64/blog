@@ -1,17 +1,10 @@
-import React, { useContext } from 'react';
 import { Button, Form, Input } from 'antd';
+import React from 'react';
 import './Registration.scss';
-import { PlusOutlined } from '@ant-design/icons';
-import { Upload } from 'antd';
-import { Context } from '../..';
-import { observer } from 'mobx-react-lite';
 
-const Registration = observer(() => {
-  const { store } = useContext(Context);
-
+const Registration = () => {
   const onFinish = (values) => {
     console.log('Success:', values);
-    store.registration(values);
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -83,8 +76,8 @@ const Registration = observer(() => {
         </Form.Item>
       </Form>
 
-      <div className="error">{store.error}</div>
+      <div className="error">{'error'}</div>
     </div>
   );
-});
+};
 export default Registration;

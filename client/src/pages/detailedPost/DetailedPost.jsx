@@ -2,7 +2,7 @@ import { LikeOutlined } from '@ant-design/icons';
 import React from 'react';
 import './Post.scss';
 
-const Post = () => {
+const DetailedPost = () => {
   const dateObj = new Date();
   const month = dateObj.getMonth() + 1;
   const day = dateObj.getUTCDate();
@@ -92,4 +92,4 @@ const Post = () => {
     </div>
   );
 };
-export default Post;
+export default DetailedPost;

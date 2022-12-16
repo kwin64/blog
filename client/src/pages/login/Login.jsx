@@ -1,18 +1,10 @@
 import { Button, Form, Input } from 'antd';
-import React, { useContext } from 'react';
+import React from 'react';
 import './Login.scss';
-import { Context } from '../..';
-import { observer } from 'mobx-react-lite';
-import { useNavigate } from 'react-router-dom';
 
-const Login = observer(() => {
-  const { store } = useContext(Context);
-  let navigate = useNavigate();
-
+const Login = () => {
   const onFinish = (values) => {
-    store.login(values);
-    // return navigate('/posts');
-    // }
+    console.log(values);
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -62,9 +54,7 @@ const Login = observer(() => {
           </Button>
         </Form.Item>
       </Form>
-
-      <div className="error">{store.error}</div>
     </div>
   );
-});
+};
 export default Login;

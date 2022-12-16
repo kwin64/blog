@@ -1,11 +1,19 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import authMiddleware from './middlewares/auth-middleware.js';
 import { loginValidation, registrationValidation } from './validation/auth.js';
 import { postCreateValidation } from './validation/post.js';
 import { register, login, getMe } from './controllers/user-controller.js';
-import { create, getAll, getOne, remove, update } from './controllers/post-controller.js';
+import {
+  create,
+  getAllPosts,
+  getTags,
+  getOne,
+  remove,
+  update,
+} from './controllers/post-controller.js';
 import multer from 'multer';
 import validationErrorsMiddleware from './middlewares/validationErrors-middleware.js';
 dotenv.config();
@@ -26,6 +34,12 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 app.use(express.json());
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CLIENT_URL,
+  }),
+);
 app.use('/uploads', express.static('uploads'));
 
 app.post('/auth/register', registrationValidation, validationErrorsMiddleware, register);
@@ -36,7 +50,8 @@ app.post('/upload', authMiddleware, upload.single('image'), (req, res) => {
     url: `/uploads/${req.file.originalname}`,
   });
 });
-app.get('/posts', getAll);
+app.get('/posts', getAllPosts);
+app.get('/posts/tags', getTags);
 app.get('/posts/:id', getOne);
 app.post('/posts', authMiddleware, postCreateValidation, validationErrorsMiddleware, create);
 app.delete('/posts/:id', authMiddleware, remove);
