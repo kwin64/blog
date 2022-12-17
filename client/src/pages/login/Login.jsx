@@ -8,14 +8,20 @@ import './Login.scss';
 const Login = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  const onFinish = (values) => {
-    console.log(values);
-    dispatch(fetchAuth(values));
+
+  const onFinish = async (values) => {
+    const data = await dispatch(fetchAuth(values));
+    if (!data.payload) {
+      return alert('Failed to authorize');
+    }
+    if ('token' in data.payload) {
+      window.localStorage.setItem('token', data.payload.token);
+    }
   };
+
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-  console.log('isAuth', isAuth);
 
   if (isAuth) {
     return <Navigate to="/" />;

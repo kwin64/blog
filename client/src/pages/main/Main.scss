@@ -34,6 +34,11 @@
         -webkit-line-clamp: 2;
         display: -webkit-box;
         -webkit-box-orient: vertical;
+        color: #364037;
+
+        &:hover {
+          color: #f4dec9;
+        }
       }
 
       .footerPost {
@@ -41,41 +46,66 @@
         justify-content: space-between;
         border-top: 1px solid gray;
         width: 80%;
-        // padding: 10px 50px 0;
         height: 30%;
 
-        .comment {
+        .infoPost {
           display: flex;
-          gap: 0 10px;
-          align-items: center;
-          svg {
-            font-size: 20px;
+
+          .comment {
+            display: flex;
+            gap: 0 10px;
+            align-items: center;
+
+            margin-right: 30px;
+            svg {
+              font-size: 30px;
+            }
+            p {
+              font-size: 20px;
+            }
           }
-          p {
-            font-size: 15px;
+
+          .view {
+            display: flex;
+            gap: 0 10px;
+            align-items: center;
+
+            svg {
+              font-size: 30px;
+            }
+            p {
+              font-size: 20px;
+            }
           }
         }
 
-        .view {
+        .editContainer {
           display: flex;
-          gap: 0 10px;
           align-items: center;
-          svg {
-            font-size: 20px;
-          }
-          p {
-            font-size: 15px;
-          }
-        }
 
-        .edit {
-          display: flex;
-          align-items: center;
-          svg {
-            font-size: 20px;
+          .edit {
+            display: flex;
+            align-items: center;
+            margin-right: 30px;
+
+            svg {
+              font-size: 30px;
+              color: green;
+
+              &:hover {
+                color: gray;
+              }
+            }
           }
-          p {
-            font-size: 15px;
+
+          span {
+            font-size: 30px;
+            color: red;
+            cursor: pointer;
+
+            &:hover {
+              color: gray;
+            }
           }
         }
       }

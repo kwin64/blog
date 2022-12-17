@@ -2,7 +2,7 @@ import { EyeOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Comment from '../../components/comment/Comment';
-import SkeletonDetailedPost from '../../components/skeleton/SkeletonDetailedPost';
+import { Preloader } from '../../components/preloader/Preloader';
 import PostsService from '../../service/PostsService';
 import './Post.scss';
 
@@ -22,26 +22,29 @@ const DetailedPost = () => {
       });
   }, []);
 
-  const image = 'https://images.hdqwalls.com/download/travel-hd-1920x1080.jpg';
-
   return isLoading ? (
-    <SkeletonDetailedPost />
+    <Preloader />
   ) : (
     <div className="containerPost">
-      <div className="user">Admin {data?.createdAt}</div>
+      <div className="user">
+        <h1>{data.user.nickname}</h1> {data?.createdAt}
+      </div>
       <div className="title">{data?.title}</div>
-      <div
-        className="image"
-        style={{
-          background: `url(${image}) 100% 100% no-repeat`,
-          backgroundSize: 'cover',
-        }}></div>
+
+      {data.imageUrl && (
+        <div
+          className="image"
+          style={{
+            background: `url(http://localhost:5080${data.imageUrl}) 100% 100% no-repeat`,
+            backgroundSize: 'cover',
+          }}></div>
+      )}
 
       <div className="aboutPost">
         {data?.text}
         {data?.tags.map((tag, index) => (
           <div key={index}>
-            <a>{`#${tag}`}</a>
+            <a>{`${tag}`}</a>
           </div>
         ))}
       </div>

@@ -50,33 +50,35 @@ export const getAllPosts = async (req, res) => {
 export const getOne = async (req, res) => {
   try {
     const postId = req.params.id;
-    postModel.findOneAndUpdate(
-      {
-        _id: postId,
-      },
-      {
-        $inc: { viewsCount: 1 },
-      },
-      {
-        returnDocument: 'after',
-      },
-      (error, doc) => {
-        if (error) {
-          console.log(error);
-          return res.status(500).json({
-            message: 'failed return article',
-          });
-        }
+    postModel
+      .findOneAndUpdate(
+        {
+          _id: postId,
+        },
+        {
+          $inc: { viewsCount: 1 },
+        },
+        {
+          returnDocument: 'after',
+        },
+        (error, doc) => {
+          if (error) {
+            console.log(error);
+            return res.status(500).json({
+              message: 'failed return article',
+            });
+          }
 
-        if (!doc) {
-          return res.status(404).json({
-            message: 'article not found',
-          });
-        }
+          if (!doc) {
+            return res.status(404).json({
+              message: 'article not found',
+            });
+          }
 
-        res.json(doc);
-      },
-    );
+          res.json(doc);
+        },
+      )
+      .populate('user');
   } catch (error) {
     console.log(error);
     res.status(500).json({

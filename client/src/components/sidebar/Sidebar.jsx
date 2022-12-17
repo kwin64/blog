@@ -11,16 +11,27 @@ const Sidebar = () => {
   return (
     <div className="containerSidebar">
       <div className="containerIcon">
-        <InstagramOutlined />
+        <a href="https://www.google.com/" target="_blank">
+          <InstagramOutlined />
+        </a>
       </div>
+
       <div className="containerIcon">
-        <FacebookOutlined />
+        <a href="https://www.facebook.com/" target="_blank">
+          <FacebookOutlined />
+        </a>
       </div>
+
       <div className="containerIcon">
-        <GithubOutlined />
+        <a href="https://www.github.com/" target="_blank">
+          <GithubOutlined />
+        </a>
       </div>
+
       <div className="containerIcon">
-        <LinkedinOutlined />
+        <a href="https://www.linkedin.com/" target="_blank">
+          <LinkedinOutlined />
+        </a>
       </div>
     </div>
   );

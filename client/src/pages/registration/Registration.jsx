@@ -1,15 +1,31 @@
 import { Button, Form, Input } from 'antd';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { fetchRegistr, selectIsAuth } from '../../redux/slices/auth';
 import './Registration.scss';
 
 const Registration = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const dispatch = useDispatch();
+  const isAuth = useSelector(selectIsAuth);
+
+  const onFinish = async (values) => {
+    const data = await dispatch(fetchRegistr(values));
+    if (!data.payload) {
+      return alert('Failed to registration');
+    }
+    if ('token' in data.payload) {
+      window.localStorage.setItem('token', data.payload.token);
+    }
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+
+  if (isAuth) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <div className="containerRegistration">
@@ -76,7 +92,7 @@ const Registration = () => {
         </Form.Item>
       </Form>
 
-      <div className="error">{'error'}</div>
+      {/* <div className="error">{'error'}</div> */}
     </div>
   );
 };

@@ -5,13 +5,12 @@
   align-items: center;
   height: 100%;
 
-  .containerLogo {
-    display: flex;
-    cursor: pointer;
-
-    .title {
-      margin: 0 20px;
-      letter-spacing: 1px;
+  .img {
+    .containerLogo {
+      display: flex;
+      cursor: pointer;
+      width: 100px;
+      height: 100px;
     }
   }
 
@@ -19,11 +18,13 @@
     display: flex;
     align-items: center;
 
-    a {
-      height: 40px;
-      margin: 0 10px;
-      line-height: 0;
-      border: 1px solid;
+    .ant-btn {
+      height: 50px;
+      font-size: 20px;
+
+      a {
+        color: white;
+      }
     }
   }
 }
