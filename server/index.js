@@ -45,7 +45,7 @@ app.use('/uploads', express.static('uploads'));
 app.post('/auth/register', registrationValidation, validationErrorsMiddleware, register);
 app.post('/auth/login', loginValidation, validationErrorsMiddleware, login);
 app.get('/auth/me', authMiddleware, getMe);
-app.post('/upload', authMiddleware, upload.single('image'), (req, res) => {
+app.post('/upload', upload.single('image'), (req, res) => {
   res.json({
     url: `/uploads/${req.file.originalname}`,
   });

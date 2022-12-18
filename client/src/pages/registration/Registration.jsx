@@ -1,13 +1,17 @@
+import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import PostsService from '../../service/PostsService';
 import { fetchRegistr, selectIsAuth } from '../../redux/slices/auth';
 import './Registration.scss';
 
 const Registration = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
+  const inputAvatarRef = useRef(null);
+  const [imageUrl, setImageUrl] = useState('');
 
   const onFinish = async (values) => {
     const data = await dispatch(fetchRegistr(values));
@@ -17,6 +21,23 @@ const Registration = () => {
     if ('token' in data.payload) {
       window.localStorage.setItem('token', data.payload.token);
     }
+  };
+
+  const handleChangeImg = async (e) => {
+    try {
+      const formData = new FormData();
+      const file = e.target.files[0];
+      formData.append('image', file);
+      const { data } = await PostsService.uploadImageForBlog(formData);
+      setImageUrl(data.url);
+    } catch (error) {
+      console.log(error);
+      alert('Error uploading image');
+    }
+  };
+
+  const handleRemoveIamge = () => {
+    setImageUrl('');
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -75,11 +96,22 @@ const Registration = () => {
           <Input />
         </Form.Item>
 
-        {/* <Form.Item label="Upload" valuePropName="fileList">
-          <Upload {...props}>
-            <Button icon={<UploadOutlined />}>Click to Upload</Button>
-          </Upload>
-        </Form.Item> */}
+        {/* <Button
+          onClick={() => inputAvatarRef.current.click()}
+          icon={<UploadOutlined />}
+          style={{ marginRight: '20px' }}>
+          avatar
+        </Button> */}
+        <div className="avatar">
+          <p>Choose file (jpg, jpeg, png)</p>
+          <input
+            ref={inputAvatarRef}
+            type="file"
+            onChange={handleChangeImg}
+            accept=".jpg, .jpeg, .png"
+            hidden={true}
+          />
+        </div>
 
         <Form.Item
           wrapperCol={{

@@ -7,7 +7,7 @@ export default class PostsService {
   static async post(id) {
     return $api.get(`/posts/${id}`);
   }
-  static async uploadImageForNewPost(image) {
+  static async uploadImageForBlog(image) {
     return $api.post(`/upload`, image);
   }
   static async createPost(values) {

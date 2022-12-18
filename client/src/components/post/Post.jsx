@@ -12,7 +12,7 @@ const Post = ({ post }) => {
         <div
           className="image"
           style={{
-            background: `url(http://localhost:5080${post.imageUrl}) 100% 100% no-repeat`,
+            background: `url(${process.env.REACT_APP_API_URL}${post.imageUrl}) 100% 100% no-repeat`,
             backgroundSize: 'cover',
           }}></div>
       ) : (

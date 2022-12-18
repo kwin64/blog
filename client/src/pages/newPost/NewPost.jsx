@@ -22,12 +22,11 @@ const NewPost = () => {
     return <Navigate to="/" />;
   }
   const handleChangeImg = async (e) => {
-    console.log(e.target.files);
     try {
       const formData = new FormData();
       const file = e.target.files[0];
       formData.append('image', file);
-      const { data } = await PostsService.uploadImageForNewPost(formData);
+      const { data } = await PostsService.uploadImageForBlog(formData);
       setImageUrl(data.url);
     } catch (error) {
       console.log(error);
@@ -68,19 +67,21 @@ const NewPost = () => {
       <Input placeholder="Tags" bordered={true} onChange={(e) => setTags(e.target.value)} />
       <br />
       <br />
+
       <Button
         onClick={() => inputImgRef.current.click()}
         icon={<UploadOutlined />}
         style={{ marginRight: '20px' }}>
         Upload image
       </Button>
+
       {imageUrl && (
         <>
           <Button type="primary" danger onClick={handleRemoveIamge}>
             <DeleteOutlined style={{ fontSize: '20px' }} />
           </Button>
           <img
-            src={`http://localhost:5080${imageUrl}`}
+            src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
             alt=""
             style={{ height: '100px', width: '150px' }}
           />

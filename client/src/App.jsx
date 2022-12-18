@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchAuthMe());
   }, []);
-
+  console.log('process.env', process.env);
   return (
     <>
       <MainLayout>

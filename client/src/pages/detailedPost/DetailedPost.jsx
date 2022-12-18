@@ -35,7 +35,7 @@ const DetailedPost = () => {
         <div
           className="image"
           style={{
-            background: `url(http://localhost:5080${data.imageUrl}) 100% 100% no-repeat`,
+            background: `url(${process.env.REACT_APP_API_URL}${data.imageUrl}) 100% 100% no-repeat`,
             backgroundSize: 'cover',
           }}></div>
       )}
