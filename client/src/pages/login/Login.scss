@@ -5,6 +5,46 @@
   justify-content: center;
   margin-top: 200px;
 
+  .form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 10px;
+
+    input {
+      padding: 5px;
+    }
+
+    p {
+      font-size: 17px;
+      margin-bottom: 10px 0;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      width: 250px;
+
+      .error {
+        height: 25px;
+        margin: 5px 0;
+      }
+    }
+
+    .btn {
+      height: 40px;
+      cursor: pointer;
+      margin: 10px 0;
+    }
+
+    .errorServer {
+      margin-top: 100px;
+      color: red;
+      font-size: 25px;
+      text-align: center;
+    }
+  }
+
   .error {
     color: red;
     font-size: 20px;

@@ -16,13 +16,15 @@ const Main = () => {
     // dispatch(fetchTags());
   }, []);
 
+  if (isPostsLoading) {
+    return <Preloader />;
+  }
+
   return (
     <div className="container">
-      {isPostsLoading ? (
-        <Preloader />
-      ) : (
-        posts.items.map((obj, index) => <Post key={index} post={obj} />)
-      )}
+      {posts.items.map((obj, index) => (
+        <Post key={index} post={obj} />
+      ))}
     </div>
   );
 };

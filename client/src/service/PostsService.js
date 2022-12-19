@@ -10,7 +10,16 @@ export default class PostsService {
   static async uploadImageForBlog(image) {
     return $api.post(`/upload`, image);
   }
+  static async removePost(id) {
+    return $api.delete(`/posts/${id}`);
+  }
+  static async uploadImageForBlog(image) {
+    return $api.post(`/upload`, image);
+  }
   static async createPost(values) {
     return $api.post(`/posts`, values);
+  }
+  static async editPost(values, id) {
+    return $api.patch(`/posts/${id}`, values);
   }
 }

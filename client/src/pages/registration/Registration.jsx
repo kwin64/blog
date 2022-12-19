@@ -1,5 +1,7 @@
-import { Button, Form, Input } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button } from 'antd';
 import React, { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import user from '../../assets/user.png';
@@ -14,26 +16,7 @@ const Registration = () => {
   const inputAvatarRef = useRef(user);
   const [imageUrl, setImageUrl] = useState(`${process.env.REACT_APP_USER_AVATAR_STATIC}`);
   const [isLoading, setIsLoading] = useState(false);
-
-  const onFinish = async (values) => {
-    try {
-      setIsLoading(true);
-      const fields = {
-        email: values.email,
-        password: values.password,
-        nickname: values.nickname,
-        avatarUrl: imageUrl,
-      };
-      const data = await dispatch(fetchRegistr(fields));
-      if ('token' in data.payload) {
-        window.localStorage.setItem('token', data.payload.token);
-      }
-    } catch (e) {
-      return alert('Failed to registration');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const [error, setError] = useState('');
 
   const handleChangeImg = async (e) => {
     try {
@@ -48,92 +31,94 @@ const Registration = () => {
     }
   };
 
-  const handleRemoveIamge = () => {
-    setImageUrl('');
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (value) => {
+    try {
+      setIsLoading(true);
+      const fields = {
+        email: value.email,
+        password: value.password,
+        nickname: value.nickname,
+        avatarUrl: imageUrl,
+      };
+      const data = await dispatch(fetchRegistr(fields));
+      if ('token' in data.payload) {
+        window.localStorage.setItem('token', data.payload.token);
+      }
+    } catch (error) {
+      console.log('error.message', error.message);
+      setError('Failed to register');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   if (isAuth) {
     return <Navigate to="/" />;
   }
 
-  return isLoading ? (
-    <Preloader />
-  ) : (
+  return (
     <div className="containerRegistration">
-      <Form
-        name="basic"
-        initialValues={{
-          remember: false,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off">
-        <Form.Item
-          label="Email"
-          name="email"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your email!',
-            },
-          ]}>
-          <Input />
-        </Form.Item>
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+        <>
+          <p>email</p>
+          <div className="field">
+            <input placeholder="email" type={'email'} {...register('email', { required: true })} />
+            {errors?.email && <span className="error">Bad email</span>}
+          </div>
+        </>
 
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-              min: 5,
-            },
-          ]}>
-          <Input.Password />
-        </Form.Item>
+        <>
+          <p>password</p>
+          <div className="field">
+            <input
+              placeholder="password"
+              type={'password'}
+              {...register('password', { required: true, minLength: 5 })}
+            />
+            {errors?.password && <span className="error">Bad password</span>}
+          </div>
+        </>
 
-        <Form.Item
-          label="nickname"
-          name="nickname"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your nickname!',
-              min: 1,
-            },
-          ]}>
-          <Input />
-        </Form.Item>
+        <>
+          <p>name</p>
+          <div className="field">
+            <input placeholder="name" {...register('nickname', { required: true, minLength: 3 })} />
+            {errors?.nickname && <span className="error">Bad name</span>}
+          </div>
+        </>
 
-        <div className="avatar">
-          <p>Choose file (jpg, jpeg, png)</p>
-          <input
-            ref={inputAvatarRef}
-            type="file"
-            onChange={handleChangeImg}
-            accept=".jpg, .jpeg, .png"
-            hidden={true}
-          />
-        </div>
-        {/* <img src={user} alt="" /> */}
+        <>
+          <div className="avatarContainer">
+            <Button
+              onClick={() => inputAvatarRef.current.click()}
+              icon={<UploadOutlined />}
+              style={{ marginRight: '20px' }}>
+              Upload avatar
+            </Button>
+            <input
+              ref={inputAvatarRef}
+              type="file"
+              onChange={handleChangeImg}
+              accept=".jpg, .jpeg, .png"
+              hidden={true}
+            />
+          </div>
+        </>
 
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}>
-          <Button type="primary" htmlType="submit">
-            accept
-          </Button>
-        </Form.Item>
-      </Form>
+        <input type="submit" className="btn" />
 
-      {/* <div className="error">{'error'}</div> */}
+        {error && <div className="errorServer">{error}</div>}
+      </form>
     </div>
   );
 };

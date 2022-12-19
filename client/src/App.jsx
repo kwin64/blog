@@ -4,7 +4,6 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.scss';
 import MainLayout from './layout/MainLayout';
 import DetailedPost from './pages/detailedPost/DetailedPost';
-import EditPost from './pages/editPost/EditPost';
 import Login from './pages/login/Login';
 import Main from './pages/main/Main';
 import NewPost from './pages/newPost/NewPost';
@@ -18,6 +17,7 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchAuthMe());
   }, []);
+
   return (
     <>
       <MainLayout>
@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/posts" element={<Main />} />
           <Route path="/" element={<Navigate to="/posts" replace />} />
           <Route path="posts/:id" element={<DetailedPost />} />
-          <Route path="posts/:id/edit" element={<EditPost />} />
+          <Route path="posts/:id/edit" element={<NewPost />} />
           <Route path="posts/new" element={<NewPost />} />
 
           <Route path="/login" element={<Login />} />

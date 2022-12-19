@@ -1,14 +1,16 @@
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { selectIsAuth } from '../../redux/slices/auth';
 import PostsService from '../../service/PostsService';
 import { Preloader } from '../../components/preloader/Preloader';
 import './NewPost.scss';
 
 const NewPost = () => {
+  const { id } = useParams();
+  const [isEditing, setIsEditing] = useState(false);
   const navigate = useNavigate();
   const { TextArea } = Input;
   const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +20,18 @@ const NewPost = () => {
   const [tags, setTags] = useState([]);
   const [imageUrl, setImageUrl] = useState('');
   const inputImgRef = useRef(null);
+
+  useEffect(() => {
+    if (id) {
+      setIsEditing(true);
+      PostsService.post(id).then(({ data }) => {
+        setTitle(data.title);
+        setText(data.text);
+        setTags(data.tags.join(','));
+        setImageUrl(data.imageUrl);
+      });
+    }
+  }, []);
 
   if (!window.localStorage.getItem('token') && !isAuth) {
     return <Navigate to="/" />;
@@ -34,7 +48,7 @@ const NewPost = () => {
       alert('Error uploading image');
     }
   };
-  const handleRemoveIamge = () => {
+  const handleRemoveImage = () => {
     setImageUrl('');
   };
 
@@ -47,10 +61,12 @@ const NewPost = () => {
         tags: tags.split(','),
         imageUrl,
       };
-      const { data } = await PostsService.createPost(fields);
+      const { data } = isEditing
+        ? await PostsService.editPost(fields, id)
+        : await PostsService.createPost(fields);
 
-      const id = data._id;
-      navigate(`/posts/${id}`);
+      const _id = isEditing ? id : data._id;
+      navigate(`/posts/${_id}`);
     } catch (error) {
       alert('Error creating post');
     }
@@ -63,10 +79,16 @@ const NewPost = () => {
       <Input
         placeholder="Title article"
         bordered={true}
+        value={title}
         onChange={(e) => setTitle(e.target.value)}
       />
       <br />
-      <Input placeholder="Tags" bordered={true} onChange={(e) => setTags(e.target.value)} />
+      <Input
+        placeholder="Tags"
+        bordered={true}
+        onChange={(e) => setTags(e.target.value)}
+        value={tags}
+      />
       <br />
       <br />
 
@@ -79,7 +101,7 @@ const NewPost = () => {
 
       {imageUrl && (
         <>
-          <Button type="primary" danger onClick={handleRemoveIamge}>
+          <Button type="primary" danger onClick={handleRemoveImage}>
             <DeleteOutlined style={{ fontSize: '20px' }} />
           </Button>
           <img
@@ -99,10 +121,11 @@ const NewPost = () => {
         onChange={(e) => setText(e.target.value)}
         placeholder="Article..."
         bordered={true}
+        value={text}
       />
       <br />
       <Button type="primary" style={{ marginRight: '20px' }} onClick={onSubmit}>
-        Publish
+        {isEditing ? 'Save' : 'Publish'}
       </Button>
       <Button danger>Cancel</Button>
     </div>

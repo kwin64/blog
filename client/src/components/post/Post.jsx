@@ -1,11 +1,18 @@
-import { CommentOutlined, EditOutlined, EyeOutlined, DeleteOutlined } from '@ant-design/icons';
+import { CommentOutlined, DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Skeleton } from 'antd';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { fetchRemovePost } from '../../redux/slices/posts';
 
 const Post = ({ post }) => {
   const userData = useSelector((state) => state.auth.data);
+  const dispatch = useDispatch();
+
+  const removePost = () => {
+    dispatch(fetchRemovePost(post._id));
+  };
+
   return !post ? (
     <div>No Posts</div>
   ) : (
@@ -52,7 +59,7 @@ const Post = ({ post }) => {
                 </>
               )}
             </div>
-            {userData?._id === post.user._id && <DeleteOutlined />}
+            {userData?._id === post.user._id && <DeleteOutlined onClick={removePost} />}
           </div>
         </div>
       </div>
