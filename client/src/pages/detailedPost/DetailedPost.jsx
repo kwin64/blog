@@ -27,7 +27,17 @@ const DetailedPost = () => {
   ) : (
     <div className="containerPost">
       <div className="user">
-        <h1>{data.user.nickname}</h1> {data?.createdAt}
+        <div
+          className="avatar"
+          style={{
+            background: `url(${process.env.REACT_APP_API_URL}${data.user.avatarUrl}) 100% 100% no-repeat`,
+            backgroundPosition: 'center center',
+            backgroundSize: 'cover',
+          }}></div>
+        <div>
+          <h1>{data.user.nickname}</h1>
+          <p>{data?.createdAt}</p>
+        </div>
       </div>
       <div className="title">{data?.title}</div>
 

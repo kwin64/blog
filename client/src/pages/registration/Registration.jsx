@@ -1,25 +1,37 @@
-import { UploadOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import PostsService from '../../service/PostsService';
+import user from '../../assets/user.png';
+import { Preloader } from '../../components/preloader/Preloader';
 import { fetchRegistr, selectIsAuth } from '../../redux/slices/auth';
+import PostsService from '../../service/PostsService';
 import './Registration.scss';
 
 const Registration = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
-  const inputAvatarRef = useRef(null);
-  const [imageUrl, setImageUrl] = useState('');
+  const inputAvatarRef = useRef(user);
+  const [imageUrl, setImageUrl] = useState(`${process.env.REACT_APP_USER_AVATAR_STATIC}`);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onFinish = async (values) => {
-    const data = await dispatch(fetchRegistr(values));
-    if (!data.payload) {
+    try {
+      setIsLoading(true);
+      const fields = {
+        email: values.email,
+        password: values.password,
+        nickname: values.nickname,
+        avatarUrl: imageUrl,
+      };
+      const data = await dispatch(fetchRegistr(fields));
+      if ('token' in data.payload) {
+        window.localStorage.setItem('token', data.payload.token);
+      }
+    } catch (e) {
       return alert('Failed to registration');
-    }
-    if ('token' in data.payload) {
-      window.localStorage.setItem('token', data.payload.token);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -48,7 +60,9 @@ const Registration = () => {
     return <Navigate to="/" />;
   }
 
-  return (
+  return isLoading ? (
+    <Preloader />
+  ) : (
     <div className="containerRegistration">
       <Form
         name="basic"
@@ -96,12 +110,6 @@ const Registration = () => {
           <Input />
         </Form.Item>
 
-        {/* <Button
-          onClick={() => inputAvatarRef.current.click()}
-          icon={<UploadOutlined />}
-          style={{ marginRight: '20px' }}>
-          avatar
-        </Button> */}
         <div className="avatar">
           <p>Choose file (jpg, jpeg, png)</p>
           <input
@@ -112,6 +120,7 @@ const Registration = () => {
             hidden={true}
           />
         </div>
+        {/* <img src={user} alt="" /> */}
 
         <Form.Item
           wrapperCol={{

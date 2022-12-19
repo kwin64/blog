@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { selectIsAuth } from '../../redux/slices/auth';
 import PostsService from '../../service/PostsService';
+import { Preloader } from '../../components/preloader/Preloader';
 import './NewPost.scss';
 
 const NewPost = () => {
@@ -38,7 +39,6 @@ const NewPost = () => {
   };
 
   const onSubmit = async (e) => {
-    console.log('Change:', e.target.value);
     try {
       setIsLoading(true);
       const fields = {
@@ -56,7 +56,9 @@ const NewPost = () => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <Preloader />
+  ) : (
     <div className="containerNewPost">
       <Input
         placeholder="Title article"

@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom';
 
 const Post = ({ post }) => {
   const userData = useSelector((state) => state.auth.data);
-  return (
+  return !post ? (
+    <div>No Posts</div>
+  ) : (
     <div className="post">
       {post.imageUrl ? (
         <div
@@ -50,7 +52,7 @@ const Post = ({ post }) => {
                 </>
               )}
             </div>
-            <DeleteOutlined />
+            {userData?._id === post.user._id && <DeleteOutlined />}
           </div>
         </div>
       </div>
