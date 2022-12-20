@@ -1,3 +1,4 @@
+import { Result } from 'antd';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Post from '../../components/post/Post';
@@ -20,12 +21,15 @@ const Main = () => {
     return <Preloader />;
   }
 
-  return (
+  console.log(posts);
+  return posts?.items.length > 0 ? (
     <div className="container">
       {posts.items.map((obj, index) => (
         <Post key={index} post={obj} />
       ))}
     </div>
+  ) : (
+    <Result style={{ marginTop: '200px' }} title="Posts were not found." />
   );
 };
 export default Main;

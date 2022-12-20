@@ -3,9 +3,9 @@ import { Button, Input } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Preloader } from '../../components/preloader/Preloader';
 import { selectIsAuth } from '../../redux/slices/auth';
 import PostsService from '../../service/PostsService';
-import { Preloader } from '../../components/preloader/Preloader';
 import './NewPost.scss';
 
 const NewPost = () => {
