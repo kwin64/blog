@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.scss';
+import { MainContainer } from './components/containers/MainContainer';
 import MainLayout from './layout/MainLayout';
 import DetailedPost from './pages/detailedPost/DetailedPost';
 import Login from './pages/login/Login';
@@ -22,7 +23,7 @@ const App = () => {
     <>
       <MainLayout>
         <Routes>
-          <Route path="/posts" element={<Main />} />
+          <Route path="/posts" element={<MainContainer />} />
           <Route path="/" element={<Navigate to="/posts" replace />} />
           <Route path="posts/:id" element={<DetailedPost />} />
           <Route path="posts/:id/edit" element={<NewPost />} />

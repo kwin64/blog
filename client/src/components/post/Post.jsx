@@ -21,7 +21,9 @@ const Post = ({ post }) => {
         <div
           className="image"
           style={{
-            background: `url(${process.env.REACT_APP_API_URL}${post.imageUrl}) 100% 100% no-repeat`,
+            backgroundImage: `url(${process.env.REACT_APP_API_URL}${post.imageUrl})`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center center',
             backgroundSize: 'cover',
           }}></div>
       ) : (
@@ -51,7 +53,7 @@ const Post = ({ post }) => {
 
           <div className="editContainer">
             <div className="edit">
-              {userData?._id === post.user._id && (
+              {userData?._id === post.user?._id && (
                 <>
                   <Link to={`/posts/${post._id}/edit`}>
                     <EditOutlined />
@@ -59,7 +61,7 @@ const Post = ({ post }) => {
                 </>
               )}
             </div>
-            {userData?._id === post.user._id && <DeleteOutlined onClick={removePost} />}
+            {userData?._id === post.user?._id && <DeleteOutlined onClick={removePost} />}
           </div>
         </div>
       </div>
