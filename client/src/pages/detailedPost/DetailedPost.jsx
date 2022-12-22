@@ -10,6 +10,27 @@ const DetailedPost = () => {
   const { id } = useParams();
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [valueComment, setValueComment] = useState('');
+
+  console.log('data', data);
+  console.log('valueComment', valueComment);
+
+  // const [comments, setComments] = useState([
+  //   { id: 1, avatar: '', name: 'User 1', comment: 'sdakij asofm gofkn onsaod nodnsf skslc' },
+  //   { id: 2, avatar: '', name: 'User 2', comment: 'askldm klj' },
+  //   {
+  //     id: 1,
+  //     avatar: '',
+  //     name: 'User 1',
+  //     comment: 'asd jhasdkjl haskjdh kjahdlk halskdh lkahsdkl ',
+  //   },
+  //   { id: 4, avatar: '', name: 'User 3', comment: 'ask djlskalkdj lksjadlkj lksjadlkj lk' },
+  //   { id: 5, avatar: '', name: 'User 4', comment: 'asl jduiosau oidusoiu oidusaoi' },
+  // ]);
+
+  const sendComment = async () => {
+    const commentsData = await PostsService.createComment(id, valueComment);
+  };
 
   useEffect(() => {
     PostsService.post(id)
@@ -63,12 +84,14 @@ const DetailedPost = () => {
         <p>{data?.viewsCount}</p>
       </div>
       <div className="comments">
-        <Comment />
+        {data?.comments.map((comment, index) => {
+          return <Comment key={index} comment={comment} />;
+        })}
       </div>
 
       <div className="commentForm">
-        <textarea type="text" />
-        <button>Send</button>
+        <textarea type="text" onChange={(e) => setValueComment(e.target.value)} />
+        <button onClick={sendComment}>Send</button>
       </div>
     </div>
   );
