@@ -11,6 +11,11 @@ const PostModel = new mongoose.Schema(
     },
     imageUrl: { type: String },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId, ref: 'Comment', required: true
+      },
+    ],
   },
   {
     timestamps: true,

@@ -1,23 +1,22 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
 import cors from 'cors';
-import authMiddleware from './middlewares/auth-middleware.js';
-import { loginValidation, registrationValidation } from './validation/auth.js';
-import { postCreateValidation } from './validation/post.js';
-import { register, login, getMe } from './controllers/user-controller.js';
+import dotenv from 'dotenv';
+import express from 'express';
+import mongoose from 'mongoose';
+import multer from 'multer';
 import {
   create,
-  getAllPosts,
-  getTags,
-  getOne,
-  remove,
-  update,
+  getAllPosts, getOne, getTags, remove,
+  update
 } from './controllers/post-controller.js';
-import multer from 'multer';
+import authMiddleware from './middlewares/auth-middleware.js';
 import validationErrorsMiddleware from './middlewares/validationErrors-middleware.js';
+import authRoute from './routes/auth.js';
+import commentRoute from './routes/comments.js';
+import postsRoute from './routes/posts.js';
+import { postCreateValidation } from './validation/post.js';
 dotenv.config();
 
+mongoose.set('strictQuery', false);
 mongoose
   .connect(process.env.DB_URL)
   .then(() => console.log('db connected'))
@@ -42,18 +41,26 @@ app.use(
 );
 app.use('/uploads', express.static('uploads'));
 
-app.post('/auth/register', registrationValidation, validationErrorsMiddleware, register);
-app.post('/auth/login', loginValidation, validationErrorsMiddleware, login);
-app.get('/auth/me', authMiddleware, getMe);
+//Routes
+app.use('/auth',authRoute)
+app.use('/posts',postsRoute)
+app.use('/comments',commentRoute)
 app.post('/upload', upload.single('image'), (req, res) => {
   res.json({
     url: `/uploads/${req.file.originalname}`,
   });
 });
+
+// app.post('/auth/register', registrationValidation, validationErrorsMiddleware, register);
+// app.post('/auth/login', loginValidation, validationErrorsMiddleware, login);
+// app.get('/auth/me', authMiddleware, getMe);
+
+
 app.get('/posts', getAllPosts);
 app.get('/posts/tags', getTags);
 app.get('/posts/:id', getOne);
 app.post('/posts', authMiddleware, postCreateValidation, validationErrorsMiddleware, create);
+// app.patch('/comments', authMiddleware, addComment);
 app.delete('/posts/:id', authMiddleware, remove);
 app.patch('/posts/:id', authMiddleware, postCreateValidation, validationErrorsMiddleware, update);
 

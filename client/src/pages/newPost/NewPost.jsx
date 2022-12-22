@@ -36,6 +36,7 @@ const NewPost = () => {
   if (!window.localStorage.getItem('token') && !isAuth) {
     return <Navigate to="/" />;
   }
+
   const handleChangeImg = async (e) => {
     try {
       const formData = new FormData();
@@ -48,6 +49,7 @@ const NewPost = () => {
       alert('Error uploading image');
     }
   };
+
   const handleRemoveImage = () => {
     setImageUrl('');
   };

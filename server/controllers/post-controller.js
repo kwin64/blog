@@ -8,6 +8,7 @@ export const create = async (req, res) => {
       imageUrl: req.body.imageUrl,
       tags: req.body.tags,
       user: req.userId,
+      comments: req.userId,
     });
 
     const post = await doc.save();
@@ -35,6 +36,7 @@ export const getTags = async (req, res) => {
     });
   }
 };
+
 export const getAllPosts = async (req, res) => {
   try {
     const posts = await postModel.find().populate('user').exec();

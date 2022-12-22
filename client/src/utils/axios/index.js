@@ -10,22 +10,4 @@ $api.interceptors.request.use((config) => {
   return config;
 });
 
-// $api.interceptors.response.use(
-//   (config) => {
-//     return config;
-//   },
-//   async (e) => {
-//     const originalRequest = e.config;
-//     if (e.response.status === 401) {
-//       try {
-//         const response = await axios.get(`${API_URL}/refresh`);
-//         localStorage.setItem('token', response.accessToken);
-//         return $api.request(originalRequest);
-//       } catch (e) {
-//         console.log('no authorise');
-//       }
-//     }
-//   },
-// );
-
 export default $api;

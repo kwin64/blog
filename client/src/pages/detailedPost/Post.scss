@@ -62,8 +62,8 @@
 
   .comments {
     display: flex;
-    align-items: center;
     flex-direction: column;
+    justify-content: start;
 
     .commentContainer {
       display: flex;
@@ -89,6 +89,7 @@
       height: 200px;
       padding: 10px;
       margin-bottom: 20px;
+      resize: none;
     }
 
     button {

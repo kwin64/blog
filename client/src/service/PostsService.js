@@ -19,6 +19,9 @@ export default class PostsService {
   static async createPost(values) {
     return $api.post(`/posts`, values);
   }
+  static async createComment(id, comment) {
+    return $api.patch(`/posts/${id}/comment`, { comment });
+  }
   static async editPost(values, id) {
     return $api.patch(`/posts/${id}`, values);
   }
