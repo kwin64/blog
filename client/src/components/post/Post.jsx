@@ -4,7 +4,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchRemovePost } from '../../redux/slices/posts';
-import PostsService from '../../service/PostsService';
 
 const Post = ({ post }) => {
   const userData = useSelector((state) => state.auth.data);
@@ -44,7 +43,7 @@ const Post = ({ post }) => {
           <div className="infoPost">
             <div className="comment">
               <CommentOutlined />
-              <p>0</p>
+              <p>{post.comments.length}</p>
             </div>
             <div className="view">
               <EyeOutlined />

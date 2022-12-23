@@ -1,4 +1,6 @@
+import commentModel from '../models/comment-model.js';
 import postModel from '../models/post-model.js';
+import userModel from '../models/user-model.js';
 
 export const create = async (req, res) => {
   try {
@@ -8,7 +10,6 @@ export const create = async (req, res) => {
       imageUrl: req.body.imageUrl,
       tags: req.body.tags,
       user: req.userId,
-      comments: req.userId,
     });
 
     const post = await doc.save();
@@ -145,3 +146,19 @@ export const update = async (req, res) => {
     });
   }
 };
+
+export const getComments = async (req, res) => {
+
+  try {
+    const postId = req.params.id;
+
+    const post = await postModel.findById(postId)
+
+    const list = await Promise.all(
+      post.comments.map(comment => commentModel.findById(comment))
+    )
+    res.json(list);
+  } catch (error) {
+    res.json({message: 'failed get comments'})
+  }
+}

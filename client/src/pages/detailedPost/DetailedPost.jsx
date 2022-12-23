@@ -1,36 +1,60 @@
 import { EyeOutlined } from '@ant-design/icons';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import Comment from '../../components/comment/Comment';
 import { Preloader } from '../../components/preloader/Preloader';
+import { selectIsAuth } from '../../redux/slices/auth';
+import { createComment, fetchComments } from '../../redux/slices/comment';
 import PostsService from '../../service/PostsService';
 import './Post.scss';
 
 const DetailedPost = () => {
   const { id } = useParams();
+  const dataComments = useSelector(state => state.comment)
+  const dataUser = useSelector(state => state?.auth?.data)
+
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [valueComment, setValueComment] = useState('');
 
-  console.log('data', data);
-  console.log('valueComment', valueComment);
 
-  // const [comments, setComments] = useState([
-  //   { id: 1, avatar: '', name: 'User 1', comment: 'sdakij asofm gofkn onsaod nodnsf skslc' },
-  //   { id: 2, avatar: '', name: 'User 2', comment: 'askldm klj' },
-  //   {
-  //     id: 1,
-  //     avatar: '',
-  //     name: 'User 1',
-  //     comment: 'asd jhasdkjl haskjdh kjahdlk halskdh lkahsdkl ',
-  //   },
-  //   { id: 4, avatar: '', name: 'User 3', comment: 'ask djlskalkdj lksjadlkj lksjadlkj lk' },
-  //   { id: 5, avatar: '', name: 'User 4', comment: 'asl jduiosau oidusoiu oidusaoi' },
-  // ]);
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch()
 
-  const sendComment = async () => {
-    const commentsData = await PostsService.createComment(id, valueComment);
+  const sendComment = () => {
+    try {
+      setIsLoading(true)
+      dispatch(createComment({id, valueComment, dataUser}))
+      setValueComment('')
+    } catch (error) {
+      console.log(error);
+    } finally{
+      setIsLoading(false)
+    }
   };
+
+  // const fetchComments = useCallback(async() => {
+  //   try {
+  //     dispatch(fetchComments(id))
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },[id])
+
+  // const fetchPost = useCallback(async() => {
+  //   try {
+  //     PostsService.post(id)
+  //     .then((res) => {
+  //       setData(res.data);
+  //       setIsLoading(false);
+  //     }).catch((error)=>{console.log(error)})
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // },[id])
+  
 
   useEffect(() => {
     PostsService.post(id)
@@ -40,8 +64,19 @@ const DetailedPost = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
-  }, []);
+      })
+  }, [id]);
+
+  useEffect(()=> {
+    try {
+      setIsLoading(false);
+      dispatch(fetchComments(id))
+    } catch (error) {
+      console.log(err);
+    } finally{
+      setIsLoading(true);
+    }
+  },[id,fetchComments])
 
   return isLoading ? (
     <Preloader />
@@ -57,7 +92,7 @@ const DetailedPost = () => {
           }}></div>
         <div>
           <h1>{data.user.nickname}</h1>
-          <p>{data?.createdAt}</p>
+          <p>{moment().add('hh',3).utc(data?.createdAt).format(`DD-MM-YYYY hh:mm:ss a`)}</p>
         </div>
       </div>
       <div className="title">{data?.title}</div>
@@ -72,27 +107,34 @@ const DetailedPost = () => {
       )}
 
       <div className="aboutPost">
-        {data?.text}
-        {data?.tags.map((tag, index) => (
-          <div key={index}>
-            <a>{`${tag}`}</a>
-          </div>
-        ))}
+        <div className='article'>
+          {data?.text}
+        </div>
+        <div className='tag'>
+          {data?.tags.map((tag, index) => (
+              <a key={index}>{`#${tag}`}</a>
+          ))}
+        </div>
       </div>
       <div className="viewsCount">
         <EyeOutlined />
         <p>{data?.viewsCount}</p>
       </div>
       <div className="comments">
-        {data?.comments.map((comment, index) => {
-          return <Comment key={index} comment={comment} />;
+        {dataComments.comments.map((comment, index) => {
+          return <Comment key={index} comment={comment}/>;
         })}
       </div>
 
-      <div className="commentForm">
-        <textarea type="text" onChange={(e) => setValueComment(e.target.value)} />
+      {isAuth && <div className="commentForm">
+        <textarea type="text" 
+                  onChange={(e) => setValueComment(e.target.value)} 
+                  value={valueComment}
+                  placeholder='comment...'
+                  />
         <button onClick={sendComment}>Send</button>
-      </div>
+      </div>}
+
     </div>
   );
 };

@@ -35,15 +35,29 @@
   }
 
   .image {
-    float: right;
     height: 800px;
     width: 100%;
-    margin: 10px;
   }
 
   .aboutPost {
     font-size: 25px;
     line-height: 50px;
+    margin-top: 50px;
+
+    .article{
+      letter-spacing: 1px;
+      word-spacing: 5px;
+    }
+
+    .tag{
+      display: flex;
+      flex-direction: row;
+      margin-top: 20px;
+
+      a {
+        margin: 0 10px;
+      }
+    }
   }
 
   .viewsCount {
@@ -63,22 +77,45 @@
   .comments {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
 
     .commentContainer {
       display: flex;
-      align-items: center;
       margin: 20px 0;
+      border: 1px solid gray;
+      border-radius: 10px;
+      padding: 10px;
 
       .avatar {
-        border: 1px solid;
         width: 50px;
         height: 50px;
-        margin-right: 20px;
       }
 
       .aboutComment {
         padding: 10px;
+
+        .userInfo {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+          width: 1000px;
+          
+          .name{
+            font-size: 20px;
+            margin-right: 200px;
+            font-weight: bold;
+          }
+
+          .data{
+            font-size: 13px;
+          }
+        }
+
+        .comment{
+          font-size: 20px;
+          max-width: 1000px;
+        }
       }
     }
   }
@@ -90,6 +127,7 @@
       padding: 10px;
       margin-bottom: 20px;
       resize: none;
+      font-size: 20px;
     }
 
     button {
