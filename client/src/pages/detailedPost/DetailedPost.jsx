@@ -24,9 +24,14 @@ const DetailedPost = () => {
 
 	const sendComment = () => {
 		try {
-			setIsLoading(true)
-			dispatch(createComment({ id, valueComment, dataUser }))
-			setValueComment('')
+			if (valueComment.trim().length > 0) {
+				setIsLoading(true)
+				dispatch(createComment({ id, valueComment, dataUser }))
+				setValueComment('')
+			} else {
+				alert('Comment empty')
+				setValueComment('')
+			}
 		} catch (error) {
 			console.log(error)
 		} finally {
@@ -74,7 +79,7 @@ const DetailedPost = () => {
 		} finally {
 			setIsLoading(true)
 		}
-	}, [id, fetchComments])
+	}, [id, dispatch])
 
 	return isLoading ? (
 		<Preloader />
@@ -111,7 +116,7 @@ const DetailedPost = () => {
 				<div className='article'>{data?.text}</div>
 				<div className='tag'>
 					{data?.tags.map((tag, index) => (
-						<a key={index}>{`#${tag}`}</a>
+						<a key={index}>{`${tag}`}</a>
 					))}
 				</div>
 			</div>
@@ -134,7 +139,7 @@ const DetailedPost = () => {
 				<div className='commentForm'>
 					<textarea
 						type='text'
-						onChange={e => setValueComment(e.target.value.trim())}
+						onChange={e => setValueComment(e.target.value)}
 						value={valueComment}
 						placeholder='comment...'
 					/>
