@@ -34,9 +34,6 @@ const NewPost = () => {
 				.catch(error => {
 					console.log(error)
 				})
-				.finally(() => {
-					setIsEditing(false)
-				})
 		}
 	}, [id])
 

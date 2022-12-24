@@ -22,6 +22,8 @@ const DetailedPost = () => {
 	const isAuth = useSelector(selectIsAuth)
 	const dispatch = useDispatch()
 
+	console.log(dataComments);
+
 	const sendComment = () => {
 		try {
 			if (valueComment.trim().length > 0) {

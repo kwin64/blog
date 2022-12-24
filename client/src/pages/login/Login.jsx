@@ -1,10 +1,9 @@
-import { Button, Form, Input } from 'antd';
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { fetchAuth, selectIsAuth } from '../../redux/slices/auth';
 import './Login.scss';
-import { useForm } from 'react-hook-form';
 
 const Login = () => {
   const dispatch = useDispatch();

@@ -17,6 +17,8 @@ export const createComment = async (req, res) => {
 		})
 		await newComment.save()
 
+    console.log(newComment);
+
 		try {
 			await postModel.findByIdAndUpdate(postId, {
 				$push: { comments: newComment._id }
@@ -33,31 +35,38 @@ export const createComment = async (req, res) => {
 	}
 }
 
-export const removeComment = (req, res) => {
+export const removeComment = async (req, res) => {
 	try {
-		// const postId = req.params.id;
+		const idPost = req.params.id
+		const idComment = req.params.idComment
 
-		postModel.findOneAndDelete(
-			{
-				_id: postId
-			},
-			(error, doc) => {
-				if (error) {
-					console.log(error)
-					return res.status(500).json({
-						message: 'failed remove comment'
-					})
-				}
+		const post = await postModel.findById(idPost)
 
-				if (!doc) {
-					return res.status(404).json({
-						message: 'comment not found'
-					})
-				}
+		// console.log(post)
 
-				res.json({ success: true })
-			}
-		)
+		const test = postModel.updateOne({ _id: idPost }, { $pop: idComment })
+		console.log(test)
+		// commentModel.findOneAndDelete(
+		// 	{
+		// 		_id: idComment
+		// 	},
+		// 	(error, doc) => {
+		// 		if (error) {
+		// 			console.log(error)
+		// 			return res.status(500).json({
+		// 				message: 'failed remove comment'
+		// 			})
+		// 		}
+
+		// 		if (!doc) {
+		// 			return res.status(404).json({
+		// 				message: 'comment not found'
+		// 			})
+		// 		}
+
+		// 		res.json({ success: true })
+		// 	}
+		// )
 	} catch (error) {
 		console.log(error)
 		res.status(500).json({

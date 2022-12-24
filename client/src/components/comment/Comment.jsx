@@ -1,11 +1,23 @@
 import { EditOutlined, DeleteFilled } from '@ant-design/icons'
 import moment from 'moment'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { removeComment } from '../../redux/slices/comment'
 
 const Comment = ({ comment }) => {
+	const dispatch = useDispatch()
+	const idPost = useParams().id
+	const idComment = comment._id
 	const authUserId = useSelector(state => state?.auth?.data?._id)
-	const commentUserId = comment?.idUser
+
+	const handleRemoveComment = () => {
+		dispatch(removeComment({idPost, idComment}))
+	}
+
+	const handleEditComment = () => {
+		console.log(comment?._id)
+	}
 
 	return (
 		<div className='commentContainer'>
@@ -20,17 +32,17 @@ const Comment = ({ comment }) => {
 				}}></div>
 			<div className='aboutComment'>
 				<div className='userInfo'>
-					<div className='name'>{comment.name}</div>
+					<div className='name'>{comment?.name}</div>
 					<div className='data'>
-						{authUserId === commentUserId ? (
+						{authUserId === comment?.idUser ? (
 							<>
 								<EditOutlined
 									style={{ fontSize: '18px' }}
-									onClick={e => console.log(comment._id)}
+									onClick={handleEditComment}
 								/>
 								<DeleteFilled
 									style={{ fontSize: '18px' }}
-									onClick={e => console.log(comment._id)}
+									onClick={handleRemoveComment}
 								/>
 							</>
 						) : null}

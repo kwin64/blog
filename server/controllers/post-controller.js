@@ -93,7 +93,13 @@ export const remove = async (req, res) => {
 	try {
 		const postId = req.params.id
 
-		console.log(req.body)
+		// const commentsPosts = await postModel.findById({ _id: postId })
+
+		// const idComments = commentsPosts.comments.map(id => id.toString())
+
+		// commentModel.deleteOne({ _id: commentId })
+		// idComments.map(id => console.log('id', id))
+		// idComments.map(id => commentModel.deleteOne({ _id: id }))
 
 		postModel.findOneAndDelete(
 			{
