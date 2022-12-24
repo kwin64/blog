@@ -92,7 +92,6 @@ const NewPost = () => {
 				bordered={true}
 				value={title}
 				onChange={e => setTitle(e.target.value)}
-				min={3}
 			/>
 			<br />
 			<Input
