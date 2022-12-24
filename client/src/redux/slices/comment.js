@@ -54,7 +54,7 @@ const commentSlice = createSlice({
 		},
 
 		[removeComment.pending]: (state, action) => {
-			state.comments = state.comments.filter(comment => comment._id !== action.meta.arg)
+			state.comments = state.comments.filter(comment => comment._id !== action.meta.arg.idComment)
 			state.status = 'loading'
 		}
 	}

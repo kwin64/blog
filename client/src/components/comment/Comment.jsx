@@ -12,7 +12,7 @@ const Comment = ({ comment }) => {
 	const authUserId = useSelector(state => state?.auth?.data?._id)
 
 	const handleRemoveComment = () => {
-		dispatch(removeComment({idPost, idComment}))
+		dispatch(removeComment({ idPost, idComment }))
 	}
 
 	const handleEditComment = () => {
