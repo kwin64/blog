@@ -93,13 +93,11 @@ export const remove = async (req, res) => {
 	try {
 		const postId = req.params.id
 
-		// const commentsPosts = await postModel.findById({ _id: postId })
+		const commentsPosts = await postModel.findById({ _id: postId })
 
-		// const idComments = commentsPosts.comments.map(id => id.toString())
+		const arrIdComments = commentsPosts.comments.map(comment => comment._id.toString())
 
-		// commentModel.deleteOne({ _id: commentId })
-		// idComments.map(id => console.log('id', id))
-		// idComments.map(id => commentModel.deleteOne({ _id: id }))
+		await commentModel.deleteMany({ _id: { $in: arrIdComments } })
 
 		postModel.findOneAndDelete(
 			{
