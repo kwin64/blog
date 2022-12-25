@@ -76,7 +76,6 @@ export const getOne = async (req, res) => {
 							message: 'article not found'
 						})
 					}
-
 					res.json(doc)
 				}
 			)

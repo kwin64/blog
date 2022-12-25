@@ -1,9 +1,10 @@
 import { EditOutlined, DeleteFilled } from '@ant-design/icons'
 import moment from 'moment'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
-import { removeComment } from '../../redux/slices/comment'
+import { removeComment, updateComment } from '../../redux/slices/comment'
+import CommentService from '../../service/CommentService'
 
 const Comment = ({ comment }) => {
 	const dispatch = useDispatch()
@@ -11,12 +12,26 @@ const Comment = ({ comment }) => {
 	const idComment = comment._id
 	const authUserId = useSelector(state => state?.auth?.data?._id)
 
+	const [editComment, setEditCommit] = useState(false)
+	const [valueComment, setValueComment] = useState('')
+
 	const handleRemoveComment = () => {
 		dispatch(removeComment({ idPost, idComment }))
 	}
 
-	const handleEditComment = () => {
-		console.log(comment?._id)
+	const handleEditComment = async () => {
+		try {
+			setEditCommit(true)
+			const dataComment = await CommentService.getCurrentComment(idComment)
+			setValueComment(dataComment.data.comment)
+		} catch (error) {}
+	}
+
+	const handleSendComment = async () => {
+		try {
+			setEditCommit(false)
+			dispatch(updateComment({ idComment, valueComment }))
+		} catch (error) {}
 	}
 
 	return (
@@ -36,10 +51,13 @@ const Comment = ({ comment }) => {
 					<div className='data'>
 						{authUserId === comment?.idUser ? (
 							<>
-								<EditOutlined
-									style={{ fontSize: '18px' }}
-									onClick={handleEditComment}
-								/>
+								{!editComment && (
+									<EditOutlined
+										style={{ fontSize: '18px' }}
+										onClick={handleEditComment}
+									/>
+								)}
+
 								<DeleteFilled
 									style={{ fontSize: '18px' }}
 									onClick={handleRemoveComment}
@@ -49,7 +67,18 @@ const Comment = ({ comment }) => {
 						{moment().add('hh', 3).utc(comment?.createdAt).format(`DD-MM-YYYY hh:mm:ss a`)}
 					</div>
 				</div>
-				<div className='comment'>{comment?.comment}</div>
+				{editComment ? (
+					<textarea
+						type='text'
+						className='comment'
+						onBlur={handleSendComment}
+						autoFocus
+						onChange={e => setValueComment(e.target.value)}
+						value={valueComment}
+					/>
+				) : (
+					<div className='comment'>{comment?.comment}</div>
+				)}
 			</div>
 		</div>
 	)

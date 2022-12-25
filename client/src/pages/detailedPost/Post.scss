@@ -126,6 +126,14 @@
 					}
 				}
 
+				textarea {
+					width: 100%;
+					padding: 10px;
+					margin-bottom: 20px;
+					resize: none;
+					font-size: 20px;
+				}
+
 				.comment {
 					font-size: 20px;
 					max-width: 1000px;

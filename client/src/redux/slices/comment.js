@@ -19,6 +19,14 @@ export const removeComment = createAsyncThunk(
 	}
 )
 
+export const updateComment = createAsyncThunk(
+	'comment/updateComment',
+	async ({ idComment, valueComment }) => {
+		const { data } = await CommentService.updateComment(idComment, valueComment)
+		return data
+	}
+)
+
 const initialState = {
 	comments: [],
 	status: 'loading'
@@ -55,6 +63,17 @@ const commentSlice = createSlice({
 
 		[removeComment.pending]: (state, action) => {
 			state.comments = state.comments.filter(comment => comment._id !== action.meta.arg.idComment)
+			state.status = 'loading'
+		},
+
+		[updateComment.pending]: (state, action) => {
+			state.comments = state.comments.map(comment =>
+				comment._id === action.meta.arg.idComment
+					? { ...comment, comment: action.meta.arg.valueComment }
+					: comment
+			)
+
+			console.log(state.comments)
 			state.status = 'loading'
 		}
 	}

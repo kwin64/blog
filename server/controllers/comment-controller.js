@@ -73,3 +73,58 @@ export const removeComment = async (req, res) => {
 		})
 	}
 }
+
+export const getComment = async (req, res) => {
+	try {
+		const idComment = req.params.id
+
+		commentModel.findOneAndUpdate(
+			{
+				_id: idComment
+			},
+			{},
+			{
+				returnDocument: 'after'
+			},
+			(error, doc) => {
+				if (error) {
+					console.log(error)
+					return res.status(500).json({
+						message: 'failed return comment'
+					})
+				}
+
+				if (!doc) {
+					return res.status(404).json({
+						message: 'comment not found'
+					})
+				}
+				res.json(doc)
+			}
+		)
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({
+			message: 'failed to get comment'
+		})
+	}
+}
+
+export const updateComment = async (req, res) => {
+	try {
+		const idComment = req.params.id
+
+		await commentModel.findOneAndUpdate(
+			{ _id: idComment },
+			{ comment: req.body.valueComment },
+			{ returnOriginal: false }
+		)
+
+		res.json({ success: true })
+	} catch (error) {
+		console.log(error)
+		res.status(500).json({
+			message: 'failed update comments'
+		})
+	}
+}

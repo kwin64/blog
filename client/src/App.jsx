@@ -6,7 +6,6 @@ import { MainContainer } from './components/containers/MainContainer';
 import MainLayout from './layout/MainLayout';
 import DetailedPost from './pages/detailedPost/DetailedPost';
 import Login from './pages/login/Login';
-import Main from './pages/main/Main';
 import NewPost from './pages/newPost/NewPost';
 import NotFound from './pages/notFound/NotFound';
 import Registration from './pages/registration/Registration';

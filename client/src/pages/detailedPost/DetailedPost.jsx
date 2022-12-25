@@ -1,6 +1,6 @@
 import { EyeOutlined } from '@ant-design/icons'
 import moment from 'moment'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import Comment from '../../components/comment/Comment'
@@ -39,35 +39,23 @@ const DetailedPost = () => {
 		}
 	}
 
-	// const fetchComments = useCallback(async() => {
-	//   try {
-	//     dispatch(fetchComments(id))
-	//   } catch (error) {
-	//     console.log(error);
-	//   }
-	// },[id])
-
-	// const fetchPost = useCallback(async() => {
-	//   try {
-	//     PostsService.post(id)
-	//     .then((res) => {
-	//       setData(res.data);
-	//       setIsLoading(false);
-	//     }).catch((error)=>{console.log(error)})
-	//   } catch (error) {
-	//     console.log(error);
-	//   }
-	// },[id])
+	const fetchPost = useCallback(async () => {
+		try {
+			PostsService.post(id)
+				.then(res => {
+					setData(res.data)
+					setIsLoading(false)
+				})
+				.catch(error => {
+					console.log(error)
+				})
+		} catch (error) {
+			console.log(error)
+		}
+	}, [id])
 
 	useEffect(() => {
-		PostsService.post(id)
-			.then(res => {
-				setData(res.data)
-				setIsLoading(false)
-			})
-			.catch(err => {
-				console.log(err)
-			})
+		fetchPost()
 	}, [id])
 
 	useEffect(() => {
