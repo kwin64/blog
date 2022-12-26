@@ -27,6 +27,13 @@ const Post = ({ post }) => {
 				// 		backgroundSize: 'cover'
 				// 	}}></div>
 				<img
+					className='image'
+					style={{
+						backgroundImage: `url(${process.env.REACT_APP_API_URL}${post.imageUrl})`,
+						backgroundRepeat: 'no-repeat',
+						backgroundPosition: 'center center',
+						backgroundSize: 'cover'
+					}}
 					src={`${process.env.REACT_APP_API_URL}${post.imageUrl}`}
 					alt=''
 				/>
