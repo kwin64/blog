@@ -14,7 +14,7 @@ const Registration = () => {
   const dispatch = useDispatch();
   const isAuth = useSelector(selectIsAuth);
   const inputAvatarRef = useRef(user);
-  const [imageUrl, setImageUrl] = useState(`${'uploads/user.png'}`);
+  const [imageUrl, setImageUrl] = useState(`${'/uploads/user.png'}`);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
