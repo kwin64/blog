@@ -18,14 +18,18 @@ const Post = ({ post }) => {
 	) : (
 		<div className='post'>
 			{post.imageUrl ? (
-				<div
-					className='image'
-					style={{
-						backgroundImage: `url(${process.env.REACT_APP_API_URL}${post.imageUrl})`,
-						backgroundRepeat: 'no-repeat',
-						backgroundPosition: 'center center',
-						backgroundSize: 'cover'
-					}}></div>
+				// <div
+				// 	className='image'
+				// 	style={{
+				// 		backgroundImage: `url(${process.env.REACT_APP_API_URL}${post.imageUrl})`,
+				// 		backgroundRepeat: 'no-repeat',
+				// 		backgroundPosition: 'center center',
+				// 		backgroundSize: 'cover'
+				// 	}}></div>
+				<img
+					src={`${process.env.REACT_APP_API_URL}${post.imageUrl}`}
+					alt=''
+				/>
 			) : (
 				<Skeleton.Image
 					className='image'
