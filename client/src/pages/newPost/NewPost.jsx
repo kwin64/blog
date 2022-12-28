@@ -116,7 +116,7 @@ const NewPost = () => {
 						<DeleteOutlined style={{ fontSize: '20px' }} />
 					</Button>
 					<img
-						src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
+						src={`https://kwin64-blog.herokuapp.com/${imageUrl}`}
 						alt=''
 						style={{ height: '100px', width: '150px' }}
 					/>

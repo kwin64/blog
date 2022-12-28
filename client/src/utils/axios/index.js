@@ -1,8 +1,8 @@
 import axios from 'axios'
 
 const $api = axios.create({
-	baseURL: process.env.REACT_APP_API_URL,
-	// baseURL: 'https://kwin64-blog.herokuapp.com',
+	baseURL: 'https://kwin64-blog.herokuapp.com',
+	// baseURL: 'http://localhost:5080',
 	withCredentials: true
 })
 

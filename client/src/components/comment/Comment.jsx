@@ -39,7 +39,7 @@ const Comment = ({ comment }) => {
 			<div
 				className='avatar'
 				style={{
-					backgroundImage: `url(${process.env.REACT_APP_API_URL}${comment?.avatarUrl})`,
+					backgroundImage: `url(${comment?.avatarUrl?.url})`,
 					backgroundRepeat: 'no-repeat',
 					backgroundPosition: 'center center',
 					backgroundSize: 'cover',

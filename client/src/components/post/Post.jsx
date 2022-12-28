@@ -18,25 +18,14 @@ const Post = ({ post }) => {
 	) : (
 		<div className='post'>
 			{post.imageUrl ? (
-				// <div
-				// 	className='image'
-				// 	style={{
-				// 		backgroundImage: `url(${process.env.REACT_APP_API_URL}${post.imageUrl})`,
-				// 		backgroundRepeat: 'no-repeat',
-				// 		backgroundPosition: 'center center',
-				// 		backgroundSize: 'cover'
-				// 	}}></div>
-				<img
+				<div
 					className='image'
 					style={{
-						backgroundImage: `url(${process.env.REACT_APP_API_URL}${post.imageUrl})`,
+						backgroundImage: `url(https://kwin64-blog.herokuapp.com/${post.imageUrl})`,
 						backgroundRepeat: 'no-repeat',
 						backgroundPosition: 'center center',
 						backgroundSize: 'cover'
-					}}
-					src={`${process.env.REACT_APP_API_URL}${post.imageUrl}`}
-					alt=''
-				/>
+					}}></div>
 			) : (
 				<Skeleton.Image
 					className='image'
