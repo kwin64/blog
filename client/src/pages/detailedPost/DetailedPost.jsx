@@ -69,6 +69,7 @@ const DetailedPost = () => {
 		}
 	}, [id, dispatch])
 
+	console.log(data)
 	return isLoading ? (
 		<Preloader />
 	) : (
@@ -77,7 +78,7 @@ const DetailedPost = () => {
 				<div
 					className='avatar'
 					style={{
-						backgroundImage: `url(${process.env.REACT_APP_API_URL}${data.user.avatarUrl})`,
+						backgroundImage: `url(${data?.user?.avatarUrl?.url})`,
 						backgroundRepeat: 'no-repeat',
 						backgroundPosition: 'center center',
 						backgroundSize: 'cover'
@@ -93,7 +94,7 @@ const DetailedPost = () => {
 				<div
 					className='image'
 					style={{
-						backgroundImage: `url(${process.env.REACT_APP_API_URL}${data.imageUrl})`,
+						backgroundImage: `url(https://kwin64-blog.herokuapp.com/${data.imageUrl})`,
 						backgroundRepeat: 'no-repeat',
 						backgroundPosition: 'center center',
 						backgroundSize: 'cover'

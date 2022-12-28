@@ -72,8 +72,6 @@ const commentSlice = createSlice({
 					? { ...comment, comment: action.meta.arg.valueComment }
 					: comment
 			)
-
-			console.log(state.comments)
 			state.status = 'loading'
 		}
 	}
