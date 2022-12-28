@@ -1,8 +1,9 @@
 import { Menu, Result } from 'antd'
 import React, { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Post from '../../components/post/Post'
 import { Preloader } from '../../components/preloader/Preloader'
+import { selectIsAuth } from '../../redux/slices/auth'
 import { fetchPosts } from '../../redux/slices/posts'
 import './Main.scss'
 
@@ -17,6 +18,12 @@ const styleMenu = {
 
 const Main = ({ posts, isLoading, filter, changeFilterValue }) => {
 	const dispatch = useDispatch()
+	const isAuth = useSelector(selectIsAuth)
+
+	const itemsMenu = [
+		{ label: 'All', key: 'all' },
+		{ label: 'Popular', key: 'popular' }
+	]
 
 	useEffect(() => {
 		dispatch(fetchPosts())
@@ -31,6 +38,10 @@ const Main = ({ posts, isLoading, filter, changeFilterValue }) => {
 		changeFilterValue(e.key)
 	}
 
+	if (isAuth) {
+		itemsMenu.push({ label: 'My', key: 'my' })
+	}
+
 	return posts.length > 0 ? (
 		<div className='container'>
 			<Menu
@@ -38,11 +49,7 @@ const Main = ({ posts, isLoading, filter, changeFilterValue }) => {
 				defaultOpenKeys={[filter]}
 				style={styleMenu}
 				onClick={handleFilter}
-				items={[
-					{ label: 'All', key: 'all' },
-					{ label: 'Popular', key: 'popular' },
-					{ label: 'My', key: 'my' }
-				]}></Menu>
+				items={itemsMenu}></Menu>
 			{posts.map((obj, index) => (
 				<Post
 					key={index}

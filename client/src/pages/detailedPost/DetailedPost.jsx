@@ -69,7 +69,6 @@ const DetailedPost = () => {
 		}
 	}, [id, dispatch])
 
-	console.log(data)
 	return isLoading ? (
 		<Preloader />
 	) : (

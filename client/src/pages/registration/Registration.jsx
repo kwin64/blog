@@ -1,4 +1,4 @@
-import { UploadOutlined } from '@ant-design/icons'
+import { UploadOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
 import React, { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -36,6 +36,10 @@ const Registration = () => {
 		handleSubmit,
 		formState: { errors }
 	} = useForm()
+
+	const handleRemoveAvatar = () => {
+		setImageUrl('uploads/user.png')
+	}
 
 	const onSubmit = async value => {
 		try {
@@ -123,6 +127,27 @@ const Registration = () => {
 						/>
 					</div>
 				</>
+				{imageUrl !== 'uploads/user.png' && (
+					<div className='avatarContainer'>
+						<Button
+							type='primary'
+							danger
+							onClick={handleRemoveAvatar}>
+							<DeleteOutlined style={{ fontSize: '20px' }} />
+						</Button>
+						<div
+							style={{
+								backgroundImage: `url(https://kwin64-blog.herokuapp.com/${imageUrl})`,
+								width: '100px',
+								height: '100px',
+								borderRadius: '50%',
+								backgroundRepeat: 'no-repeat',
+								backgroundPosition: 'center center',
+								backgroundSize: 'cover'
+							}}
+						/>
+					</div>
+				)}
 
 				<input
 					type='submit'

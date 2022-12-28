@@ -58,6 +58,10 @@ const NewPost = () => {
 		setImageUrl('')
 	}
 
+	const handleCancel = () => {
+		navigate(`/posts`)
+	}
+
 	const onSubmit = async e => {
 		try {
 			setIsLoading(true)
@@ -147,7 +151,11 @@ const NewPost = () => {
 				onClick={onSubmit}>
 				{isEditing ? 'Save' : 'Publish'}
 			</Button>
-			<Button danger>Cancel</Button>
+			<Button
+				danger
+				onClick={handleCancel}>
+				Cancel
+			</Button>
 		</div>
 	)
 }
