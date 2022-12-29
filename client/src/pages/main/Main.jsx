@@ -1,6 +1,7 @@
-import { Menu, Result } from 'antd'
+import { Button, Menu, Result } from 'antd'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Post from '../../components/post/Post'
 import { Preloader } from '../../components/preloader/Preloader'
 import { selectIsAuth } from '../../redux/slices/auth'
@@ -19,6 +20,7 @@ const styleMenu = {
 const Main = ({ posts, isLoading, filter, changeFilterValue }) => {
 	const dispatch = useDispatch()
 	const isAuth = useSelector(selectIsAuth)
+	const navigate = useNavigate()
 
 	const itemsMenu = [
 		{ label: 'All', key: 'all' },
@@ -27,7 +29,6 @@ const Main = ({ posts, isLoading, filter, changeFilterValue }) => {
 
 	useEffect(() => {
 		dispatch(fetchPosts())
-		// dispatch(fetchTags());
 	}, [dispatch])
 
 	if (isLoading) {
@@ -36,6 +37,9 @@ const Main = ({ posts, isLoading, filter, changeFilterValue }) => {
 
 	const handleFilter = e => {
 		changeFilterValue(e.key)
+	}
+	const handleMainPage = e => {
+		navigate(`/`)
 	}
 
 	if (isAuth) {
@@ -59,9 +63,14 @@ const Main = ({ posts, isLoading, filter, changeFilterValue }) => {
 		</div>
 	) : (
 		<Result
-			style={{ marginTop: '200px' }}
-			title='Posts were not found.'
-		/>
+			className='notFoundPage'
+			title='Posts were not found.'>
+			<Button
+				className='btn'
+				onClick={handleMainPage}>
+				Posts
+			</Button>
+		</Result>
 	)
 }
 export default Main
