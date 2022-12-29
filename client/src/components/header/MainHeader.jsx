@@ -8,10 +8,16 @@ import './MainHeader.scss'
 
 export const MainHeader = () => {
 	const isAuth = useSelector(selectIsAuth)
+
+	const imageAuthUser = useSelector(state => state?.auth?.data?.avatarUrl?.url)
+
 	const dispatch = useDispatch()
 	const handleLogout = () => {
 		dispatch(logout())
 		window.localStorage.removeItem('token')
+	}
+	const handleProfile = () => {
+		alert('currently not available')
 	}
 
 	return (
@@ -28,6 +34,17 @@ export const MainHeader = () => {
 			</div>
 			{isAuth ? (
 				<div className='buttons'>
+					<div
+						onClick={handleProfile}
+						className='imageProfile'
+						style={{
+							backgroundImage: `url(${imageAuthUser})`,
+							borderRadius: '50%',
+							backgroundRepeat: 'no-repeat',
+							backgroundPosition: 'center center',
+							backgroundSize: 'cover',
+						}}
+					/>
 					<Button type='primary'>
 						<Link to={'/posts/new'}>New post</Link>
 					</Button>
