@@ -24,6 +24,10 @@
 			margin-right: 20px;
 			-webkit-transition: 0.3s;
 			// transition: 0.3s;
+			transition: all 0.3s linear;
+			-moz-transition: all 0.3s linear; /* Firefox 4 */
+			-webkit-transition: all 0.3s linear; /* Safari 和 Chrome */
+			-o-transition: all 0.3s linear;
 			cursor: pointer;
 			border: 1px solid green;
 
